@@ -10,5 +10,5 @@
 require "csv"
 
 CSV.foreach('db/attractions.csv') do |row|
-  Attraction.create(algorithm_id: row[0], name: row[1])
+  Attraction.create(algorithm_id: row[0], name: row[2])
 end

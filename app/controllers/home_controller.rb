@@ -11,5 +11,10 @@ class HomeController < ApplicationController
 
   def calc
 
+    # 予測分布を呼ぶ
+    # Cをコール
+
+
+
   end
 end

@@ -1,9 +1,10 @@
 %h1 hello_world
 
-= form_for @form, url: '/calc', method: :get do |f|
+= form_for @form, url: '/calc', method: :get, class: 'form' do |f|
   = f.collection_check_boxes(:attractions, @attractions, :name, :name) do |b|
-    = b.label { b.check_box + b.text }
-    %br
+    .attraction-label
+      = b.label { b.check_box + b.text }
+      %br
   = f.submit
 
 
