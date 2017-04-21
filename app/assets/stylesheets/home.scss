@@ -2,11 +2,163 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.new_home_controller_form {
-  background-image: url(disney_map.jpg);
+// ワールドバザール
+$area-0-color: rgb(232, 0, 24);
+$area-1-color: green;
+$area-2-color: rgb(169, 39, 10);
 
-  .attraction-label {
-    color: white;
+$attractions-list-width: 260px;
+
+@mixin clearfix() {
+  &:after {
+    clear: both;
+    display: block;
+    content: '';
   }
 }
 
+@mixin point_selected() {
+
+}
+
+
+.container {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.attractions-wrapper {
+  //width: 100%;
+  @include clearfix();
+  max-width: 1200px;
+  min-width: 800px;
+}
+
+.attractions-map {
+  float: left;
+  width: calc(100% - #{$attractions-list-width});
+  //width: 100%;
+  //max-width: 1000px;
+  //min-width: 600px;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .attraction-label {
+    border: solid 2px white;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 1),0 0 6px rgba(0, 0, 0, 1);
+    cursor: pointer;
+
+    color: white;
+    line-height: 20px;
+    vertical-align: middle;
+    font-size: 12px;
+  }
+
+  .selected {
+    transform: scale(1.2);
+    transition-duration: .2s;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+
+    margin-left: -2px;
+    margin-top: -2px;
+  }
+}
+
+.attractions-list {
+  float: left;
+  width: $attractions-list-width;
+  font-size: 12px;
+  line-height: 1.4em;
+  letter-spacing: 0.01em;
+
+  .attraction-name {
+    cursor: pointer;
+  }
+
+  .selected {
+    color: red;
+  }
+}
+
+
+
+
+// ワールドバザール
+.area-0 {
+  background-color: $area-0-color;
+}
+
+// アドベンチャーランド
+.area-1 {
+  background-color: $area-1-color;
+}
+
+// ワールドバザール
+.area-2 {
+  background-color: $area-2-color;
+}
+
+#attraction-0-point {
+  position: absolute;
+  top: 58%;
+  left: 55%;
+}
+
+#attraction-1-point {
+  position: absolute;
+  top: 75%;
+  left: 37%;
+}
+
+#attraction-2-point {
+  position: absolute;
+  top: 56%;
+  left: 32%;
+}
+
+#attraction-3-point {
+  position: absolute;
+  top: 54%;
+  left: 26%;
+}
+
+#attraction-4-point {
+  position: absolute;
+  top: 46%;
+  left: 17%;
+}
+
+#attraction-5-point {
+  position: absolute;
+  top: 42%;
+  left: 30%;
+}
+
+#attraction-6-point {
+  position: absolute;
+  top: 33%;
+  left: 32%;
+}
+
+#attraction-7-point {
+  position: absolute;
+  top: 40%;
+  left: 15%;
+}
+
+#attraction-8-point {
+  position: absolute;
+  top: 35%;
+  left: 21%;
+}

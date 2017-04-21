@@ -1,3 +1,25 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+item_over = ($obj) ->
+  id = $obj.data('attraction-id')
+  $('#attraction-' + id + '-name').addClass('selected')
+  $('#attraction-' + id + '-point').addClass('selected')
+
+item_out = ($obj) ->
+  id = $obj.data('attraction-id')
+  $('#attraction-' + id + '-name').removeClass('selected')
+  $('#attraction-' + id + '-point').removeClass('selected')
+
+
+$ ->
+  $('.attraction-label').hover(
+    ->
+      item_over($(@))
+    ->
+      item_out($(@))
+  )
+
+  $('.attraction-name').hover(
+    ->
+      item_over($(@))
+    ->
+      item_out($(@))
+  )

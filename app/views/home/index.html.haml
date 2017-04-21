@@ -1,11 +1,31 @@
-%h1 hello_world
+%h1 DisneyTour
 
-= form_for @form, url: '/calc', method: :get, class: 'form' do |f|
-  = f.collection_check_boxes(:attractions, @attractions, :name, :name) do |b|
-    .attraction-label
-      = b.label { b.check_box + b.text }
-      %br
-  = f.submit
+.container
+  .attractions-wrapper
+    .attractions-map
+      = image_tag 'disney_map.jpg'
+      - @attractions.each do |attraction|
+        %a.attraction-label{ id: "attraction-#{attraction.algorithm_id}-point", class: "area-#{attraction.area_id}",
+         'data-attraction-id' => "#{attraction.algorithm_id}" }
+          = attraction.algorithm_id
+
+    .attractions-list
+      - @attractions.each do |attraction|
+        .attraction-name{ id: "attraction-#{attraction.algorithm_id}-name",
+         'data-attraction-id' => "#{attraction.algorithm_id}" }
+          = attraction.name
+
+
+
+
+
+
+-#= form_for @form, url: '/calc', method: :get, class: 'form' do |f|
+-#  = f.collection_check_boxes(:attractions, @attractions, :algorithm_id, :name) do |b|
+-#    .attraction-label
+-#      = b.label { b.check_box + b.text }
+-#      %br
+-#  = f.submit
 
 
 
