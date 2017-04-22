@@ -10,6 +10,7 @@ class HomeController < ApplicationController
   end
 
   def calc
+    binding.pry
 
     # 予測分布を呼ぶ
     # Cをコール
