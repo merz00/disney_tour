@@ -29,6 +29,10 @@ $attractions-right-list-width: 255px;
 .container {
   width: 100%;
   overflow-x: scroll;
+
+  border: solid black 1px;
+  border-radius: 10px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 1);
 }
 
 .attractions-wrapper {
@@ -113,6 +117,50 @@ $attractions-right-list-width: 255px;
     //  color: gold;
     opacity: 1.0;
 
+  }
+}
+
+.main-head {
+  background: lightblue;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+  .set-time-box {
+    height: 32px;
+    padding-top: 8px;
+    text-align: center;
+
+    input[type=text] {
+      height: 15px;
+      width:  80px;
+      text-align: center;
+      border: solid 1px gray;
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+      border-radius: 4px;
+
+    }
+
+    select {
+      height: 20px;
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+    }
+
+    .calc-submit-btn {
+      float: right;
+      font-size: 14px;
+      margin-top: -2px;
+      padding: 3px 12px;
+      margin-right: 10px;
+      border-radius: 4px;
+      border: solid 1px blue;
+      box-shadow: 0 0 4px rgba(0, 0, 1, 1);
+
+      background-color: rgb(0, 61, 168);
+      color: whitesmoke;
+
+      &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
+    }
   }
 }
 
