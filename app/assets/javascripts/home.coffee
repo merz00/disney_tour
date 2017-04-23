@@ -94,6 +94,13 @@ $ ->
       $('#departed_minute > option[value=00]').attr('selected', true)
   )
 
+
+  $('#closetime-label').click (
+    ->
+      $('#finished_hour   > option[value=22]').attr('selected', true)
+      $('#finished_minute > option[value=00]').attr('selected', true)
+  )
+
   $('#attractions-form').submit (
     ->
       $.ajax(
