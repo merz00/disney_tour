@@ -6,21 +6,42 @@
 %h1 DisneyTour
 
 .container
-  .attractions-wrapper
-    .attractions-map
-      = image_tag 'disney_map.jpg'
-      - @attractions.each do |attraction|
-        %a.attraction-point.attraction-label{ id: "attraction-#{attraction.algorithm_id}-point", class: "area-#{attraction.area_id}",
-         'data-attraction-id' => "#{attraction.algorithm_id}" }
-          = attraction.algorithm_id
+  %form#attractions-form
+    .attractions-wrapper
+      .left-list
+        - [3, 2, 1, 0].each do |area_id|
+          .attractions-list{ class: "area-#{area_id}-list" }
+            - in_area(@attractions, area_id) do |attraction|
+              .attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
+                 'data-attraction-id' => "#{attraction.algorithm_id}" }
+                = attraction.algorithm_id
+                = attraction.name
 
-    .attractions-list
-      - @attractions.each do |attraction|
-        .attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
-         'data-attraction-id' => "#{attraction.algorithm_id}" }
-          = attraction.name
+      .attractions-map
+        = image_tag 'disney_map.jpg'
+        - @attractions.each do |attraction|
+          %a.attraction-point.attraction-label{ id: "attraction-#{attraction.algorithm_id}-point", class: "area-#{attraction.area_id}",
+           'data-attraction-id' => "#{attraction.algorithm_id}" }
+            = attraction.algorithm_id
 
-  = form_tag '/calc', method: :get, id: 'attractions-form' do
+      .right-list
+        - [4, 5, 6].each do |area_id|
+          .attractions-list{ class: "area-#{area_id}-list" }
+            - in_area(@attractions, area_id) do |attraction|
+              .attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
+                 'data-attraction-id' => "#{attraction.algorithm_id}" }
+                = attraction.algorithm_id
+                = attraction.name
+
+
+
+
+    -#.attractions-list
+    -#  - @attractions.each do |attraction|
+    -#    .attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
+    -#     'data-attraction-id' => "#{attraction.algorithm_id}" }
+    -#      = attraction.name
+
     %label.control-label{for: 'departed_date'} 予定日
     = text_field_tag 'departed[date]', DateTime.now.to_s, class: 'form-control date-picker'
 
@@ -29,15 +50,10 @@
     = select_minute DateTime.now.minute, {}, id: 'departed_minute', name: 'departed[minute]'
 
     %lable#opentime-label 開園時間に設定する
+    = submit_tag 'SEARCH', id: 'search-submit-btn'
 
+  .results
 
-
-
-
-
-    = submit_tag 'SEARCH'
-
-    %label
 
 
 

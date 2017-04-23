@@ -2,15 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$area-0-color: rgb(232, 0, 24);   // ワールドバザール
+$area-0-color: rgb(224, 35, 35);   // ワールドバザール
 $area-1-color: green;             // アドベンチャーランド
 $area-2-color: rgb(169, 39, 10);  // ウエスタンランド
 $area-3-color: rgb(0, 167, 234);  // クリッターカントリー
 $area-4-color: rgb(145, 63, 147); // ファンタジーランド
-$area-5-color: rgb(243, 135, 0);  // トゥーンランド
-$area-6-color: rgb(0, 61, 148);   // トゥモローランド
+$area-5-color: rgb(225, 120, 0);  // トゥーンランド
+$area-6-color: rgb(0, 61, 168);   // トゥモローランド
 
-$attractions-list-width: 260px;
+$attractions-left-list-width: 270px;
+$attractions-right-list-width: 255px;
 
 @mixin clearfix() {
   &:after {
@@ -32,18 +33,19 @@ $attractions-list-width: 260px;
 
 .attractions-wrapper {
   @include clearfix();
-  max-width: 1200px;
+  max-width: 1250px;
   min-width: 800px;
 }
 
 .attractions-map {
   float: left;
-  width: calc(100% - #{$attractions-list-width});
+  width: calc(100% - #{$attractions-left-list-width} - #{$attractions-right-list-width} );
   position: relative;
 
   img {
     width: 100%;
     height: auto;
+    display: block;
   }
 
   .attraction-point {
@@ -62,83 +64,230 @@ $attractions-list-width: 260px;
   }
 
   .selected {
-    transform: scale(1.2);
+    transform: scale(1.3);
     transition-duration: .2s;
-    cursor: pointer;
-    height: 25px;
-    width: 25px;
-    line-height: 25px;
-
-    margin-left: -2px;
-    margin-top: -2px;
+    opacity: 0.94;
   }
 
   .decided {
-    border: solid 2px gold;
-    color: gold;
-    transform: scale(1.2);
+    transform: scale(1.5);
     transition-duration: .2s;
-    cursor: pointer;
-    height: 25px;
-    width: 25px;
-    line-height: 25px;
-
-    margin-left: -2px;
-    margin-top: -2px;
-
-
+    //height: 25px;
+    //width: 25px;
+    //line-height: 25px;
+    //
+    //margin-left: -2px;
+    //margin-top: -2px;
   }
+
+
 }
 
 .attractions-list {
-  float: left;
-  width: $attractions-list-width;
-  font-size: 12px;
-  line-height: 1.4em;
-  letter-spacing: 0.01em;
+  padding: 4px;
+  margin: 2px 5px 4px 4px;
+  border-radius: 10px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
 
   .attraction-name {
+    color: white;
+    padding: 0 4px;
+    margin: 2px 0;
+    border-radius: 8px;
     cursor: pointer;
+
+    font-size: 11px;
+    line-height: 1.55em;
+    letter-spacing: 0.001em;
+  }
+
+
+
+  .decided {
+    //color: red;
+    opacity: 0.88;
+
   }
 
   .selected {
-    color: red;
-  }
+    //  color: gold;
+    opacity: 1.0;
 
-  .decided {
-    color: red;
   }
 }
 
+.area-6-list {
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-6-color, 5%);
 
+  .selected {
+    background-color: lighten($area-6-color, 17%);
+  }
 
+  .decided {
+    background-color: lighten($area-6-color, 17%);
+  }
+
+}
+
+.area-5-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-5-color, 5%);
+
+  .selected {
+    background-color: lighten($area-5-color, 10%);
+  }
+
+  .decided {
+    background-color: lighten($area-5-color, 10%);
+  }
+}
+
+.area-4-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-4-color, 5%);
+
+  .selected {
+    background-color: lighten($area-4-color, 10%);
+  }
+
+  .decided {
+    background-color: lighten($area-4-color, 10%);
+  }
+}
+
+.left-list {
+  float: left;
+  width: $attractions-left-list-width;
+}
+
+.right-list {
+  float: right;
+  width: $attractions-right-list-width;
+}
+
+.area-0-list {
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-0-color, 10%);
+  margin-top: 40px;
+
+  .selected {
+    background-color: lighten($area-0-color, 7%);
+  }
+
+  .decided {
+    background-color: lighten($area-0-color, 7%);
+  }
+}
+
+.area-1-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-1-color, 4%);
+  margin-top: 40px;
+
+  .selected {
+    background-color: lighten($area-1-color, 8%);
+  }
+
+  .decided {
+    background-color: lighten($area-1-color, 8%);
+  }
+}
+
+.area-2-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-2-color, 5%);
+  margin-top: 40px;
+
+  .selected {
+    background-color: lighten($area-2-color, 8%);
+  }
+
+  .decided {
+    background-color: lighten($area-2-color, 8%);
+  }
+}
+
+.area-3-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-3-color, 9%);
+  margin-top: 20px;
+
+  .selected {
+    background-color: lighten($area-3-color, 4%);
+  }
+
+  .decided {
+    background-color: lighten($area-3-color, 4%);
+  }
+}
 
 .area-0 {
   background-color: $area-0-color;
+  &.selected {
+    background-color: lighten($area-0-color, 10%);
+  }
 }
 
 .area-1 {
   background-color: $area-1-color;
+  &.selected {
+    background-color: lighten($area-1-color, 10%);
+  }
 }
 
 .area-2 {
   background-color: $area-2-color;
+  &.selected {
+    background-color: lighten($area-2-color, 10%);
+  }
 }
 
 .area-3 {
   background-color: $area-3-color;
+  &.selected {
+    background-color: lighten($area-3-color, 10%);
+  }
 }
 
 .area-4 {
   background-color: $area-4-color;
+  &.selected {
+    background-color: lighten($area-4-color, 10%);
+  }
 }
 
 .area-5 {
   background-color: $area-5-color;
+  &.selected {
+    background-color: lighten($area-5-color, 10%);
+  }
 }
 
 .area-6 {
   background-color: $area-6-color;
+  &.selected {
+    background-color: lighten($area-6-color, 10%);
+  }
 }
 
 .route-sphere {

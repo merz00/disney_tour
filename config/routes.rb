@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
   root 'home#index'
 
-  get '/calc' => 'home#calc'
+  post '/calc' => 'home#calc'
 end

@@ -94,11 +94,27 @@ $ ->
       $('#departed_minute > option[value=00]').attr('selected', true)
   )
 
+  $('#attractions-form').submit (
+    ->
+      $.ajax(
+        url: '/calc',
+        type: 'POST',
+        dataType: 'json',
+        data: $(@).serializeArray(),
+        timeout: 5000,
+        success:
+          (data) ->
+            console.log(data)
+        error:
+          (data) ->
+      )
+      return false
+  )
+
+
 #  set_routes(1,2)
 #  set_routes(2,4)
 #  set_routes(4,14)
 #  set_routes(14,26)
 #  set_routes(26,34)
-
-
 
