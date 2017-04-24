@@ -41,7 +41,7 @@ h1 {
 }
 
 .main-container {
-  width: calc(100% - #{$sidebar-width});
+  max-width: 800px;
   //overflow-x: scroll;
   margin-left: $sidebar-width;
   //border: solid black 1px;
