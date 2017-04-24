@@ -12,6 +12,7 @@ $area-6-color: rgb(0, 61, 168);   // トゥモローランド
 
 $attractions-left-list-width: 270px;
 $attractions-right-list-width: 255px;
+$sidebar-width: 300px;
 
 @mixin clearfix() {
   &:after {
@@ -25,17 +26,27 @@ $attractions-right-list-width: 255px;
 
 }
 
+body {
+  background: rgb(208, 238, 238);
+}
+
+h1 {
+  margin: 0 auto;
+  width: 200px;
+
+}
 
 .container {
   position: relative;
 }
 
 .main-container {
-  width: 100%;
+  width: calc(100% - #{$sidebar-width});
   //overflow-x: scroll;
-  border: solid black 1px;
-  border-radius: 10px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+  margin-left: $sidebar-width;
+  //border: solid black 1px;
+  //border-radius: 10px;
+  //box-shadow: 0 0 3px rgba(0, 0, 0, 1);
 }
 
 .attractions-wrapper {
@@ -46,9 +57,8 @@ $attractions-right-list-width: 255px;
 
 .attractions-map {
   float: left;
-  width: calc(100% - #{$attractions-left-list-width} - #{$attractions-right-list-width} );
   position: relative;
-
+  margin: 10px 10px 30px;
   img {
     width: 100%;
     height: auto;
@@ -93,9 +103,10 @@ $attractions-right-list-width: 255px;
 
 .attractions-list {
   padding: 4px;
-  margin: 6px 5px 4px 4px;
+  margin: 6px 12px 6px 12px;
   border-radius: 10px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+  display: none;
 
   .attraction-name {
     color: white;
@@ -109,26 +120,20 @@ $attractions-right-list-width: 255px;
     letter-spacing: 0.001em;
   }
 
-
-
   .decided {
-    //color: red;
     opacity: 0.88;
-
   }
 
   .selected {
-    //  color: gold;
     opacity: 1.0;
-
   }
 }
 
 .main-head {
-  background: rgb(198, 228, 238);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+
+  //box-shadow: 0 0 4px rgba(0, 0, 0, 1);
   @include clearfix();
-  text-align: center;
+  //text-align: center;
   color: #404040;
 
   .set-time-box {
@@ -188,10 +193,13 @@ $attractions-right-list-width: 255px;
   left: 0;
   top: 0;
   height: 100%;
-  width: 400px;
+  width: $sidebar-width;
   color: white;
   background-color: rgba(60, 60, 80, 0.95);
+  overflow-y: scroll;
 }
+
+
 
 #calc-results {
   position: fixed;
@@ -259,22 +267,21 @@ $attractions-right-list-width: 255px;
   }
 }
 
-.left-list {
-  float: left;
-  width: $attractions-left-list-width;
-}
-
-.right-list {
-  float: right;
-  width: $attractions-right-list-width;
-}
+//.left-list {
+//  float: left;
+//  width: $attractions-left-list-width;
+//}
+//
+//.right-list {
+//  float: right;
+//  width: $attractions-right-list-width;
+//}
 
 .area-0-list {
   //position: absolute;
   //bottom: 0;
   //right: 0;
   background-color: darken($area-0-color, 10%);
-  margin-top: 40px;
 
   .selected {
     background-color: lighten($area-0-color, 7%);
@@ -291,7 +298,6 @@ $attractions-right-list-width: 255px;
   //bottom: 0;
   //right: 0;
   background-color: darken($area-1-color, 4%);
-  margin-top: 40px;
 
   .selected {
     background-color: lighten($area-1-color, 8%);
@@ -308,7 +314,6 @@ $attractions-right-list-width: 255px;
   //bottom: 0;
   //right: 0;
   background-color: darken($area-2-color, 5%);
-  margin-top: 40px;
 
   .selected {
     background-color: lighten($area-2-color, 8%);
@@ -325,7 +330,6 @@ $attractions-right-list-width: 255px;
   //bottom: 0;
   //right: 0;
   background-color: darken($area-3-color, 9%);
-  margin-top: 20px;
 
   .selected {
     background-color: lighten($area-3-color, 4%);

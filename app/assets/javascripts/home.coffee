@@ -137,6 +137,11 @@ $ ->
       return false
   )
 
+  $('.acMenu dt').click(
+    ->
+      $(this).next().slideToggle()
+  );
+
 
 #  set_routes(1,2)
 #  set_routes(2,4)
