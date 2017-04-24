@@ -1,43 +1,74 @@
 %script{ src: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js' }
 %script{ src: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js' }
-%link{ rel: 'stylesheet',  href: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css' }
+%link{ rel: 'stylesheet',  href: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css' }
 
 
 %h1 DisneyTour
 
 .container
-  .attractions-wrapper
-    .attractions-map
-      = image_tag 'disney_map.jpg'
-      - @attractions.each do |attraction|
-        %a.attraction-point.attraction-label{ id: "attraction-#{attraction.algorithm_id}-point", class: "area-#{attraction.area_id}",
-         'data-attraction-id' => "#{attraction.algorithm_id}" }
-          = attraction.algorithm_id
+  %form#attractions-form
+    .main-head
+      .set-time-box
+        %label.control-label{for: 'departed_date'} 予定日
+        = text_field_tag 'departed[date]', DateTime.now.to_s, class: 'form-control date-picker'
 
-    .attractions-list
-      - @attractions.each do |attraction|
-        .attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
-         'data-attraction-id' => "#{attraction.algorithm_id}" }
-          = attraction.name
+        %label.control-label{for: 'departed_hour'} 出発時刻
+        = select_hour DateTime.now.hour,     {}, id: 'departed_hour', name: 'departed[hour]'
+        = select_minute DateTime.now.minute, {}, id: 'departed_minute', name: 'departed[minute]'
 
-  = form_tag '/calc', method: :get, id: 'attractions-form' do
-    %label.control-label{for: 'departed_date'} 予定日
-    = text_field_tag 'departed[date]', DateTime.now.to_s, class: 'form-control date-picker'
+        %lable#opentime-label 開園時に始める
 
-    %label.control-label{for: 'departed_hour'} 出発時刻
-    = select_hour DateTime.now.hour,     {}, id: 'departed_hour', name: 'departed[hour]'
-    = select_minute DateTime.now.minute, {}, id: 'departed_minute', name: 'departed[minute]'
+        %label.control-label{for: 'finished_hour'} 終了時刻
+        = select_hour DateTime.now.hour,     {}, id: 'finished_hour', name: 'finished[hour]'
+        = select_minute DateTime.now.minute, {}, id: 'finished_minute', name: 'finished[minute]'
 
-    %lable#opentime-label 開園時間に設定する
+        %lable#closetime-label 閉園時に終える
+
+        = submit_tag 'サーチ', id: 'search-submit-btn', class: 'calc-submit-btn'
 
 
+    .attractions-wrapper
+      .left-list
+        - [3, 2, 1, 0].each do |area_id|
+          .attractions-list{ class: "area-#{area_id}-list" }
+            - in_area(@attractions, area_id) do |attraction|
+              .attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
+                 'data-attraction-id' => "#{attraction.algorithm_id}" }
+                = attraction.algorithm_id
+                = attraction.name
+
+      .attractions-map
+        = image_tag 'disney_map.jpg'
+        - @attractions.each do |attraction|
+          %a.attraction-point.attraction-label{ id: "attraction-#{attraction.algorithm_id}-point", class: "area-#{attraction.area_id}",
+           'data-attraction-id' => "#{attraction.algorithm_id}" }
+            = attraction.algorithm_id
+
+      .right-list
+        - [4, 5, 6].each do |area_id|
+          .attractions-list{ class: "area-#{area_id}-list" }
+            - in_area(@attractions, area_id) do |attraction|
+              .attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
+                 'data-attraction-id' => "#{attraction.algorithm_id}" }
+                = attraction.algorithm_id
+                = attraction.name
 
 
 
 
-    = submit_tag 'SEARCH'
+    -#.attractions-list
+    -#  - @attractions.each do |attraction|
+    -#    .attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
+    -#     'data-attraction-id' => "#{attraction.algorithm_id}" }
+    -#      = attraction.name
 
-    %label
+
+
+
+
+
+  .results
+
 
 
 
