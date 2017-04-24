@@ -3,6 +3,7 @@ require 'json'
 class HomeController < ApplicationController
   def index
     @attractions = Attraction.all
+    @areas       = Area.includes(:attractions)
   end
 
   def calc

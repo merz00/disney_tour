@@ -8,15 +8,19 @@
   %h1 DisneyTour
 
   .sidebar
-    - [0, 1, 2, 3, 4, 5, 6].each do |area_id|
-      .acMenu
-        %dt open
-        .attractions-list{ class: "area-#{area_id}-list" }
-          - in_area(@attractions, area_id) do |attraction|
-            %dd.attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
-                     'data-attraction-id' => "#{attraction.algorithm_id}" }
-              = attraction.algorithm_id
-              = attraction.name
+    .area-names
+      - @areas.each do |area|
+        .acMenu
+          %dt.area-name{ id: "area-#{area.id}-name",
+                        class: "area-#{area.id}-list" }
+            = area.name
+          .attractions-list{ class: "area-#{area.id}-list" }
+            - area.attractions.each do |attraction|
+              %dd.attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
+                'data-attraction-id' => attraction.algorithm_id,
+                'data-area-id' => attraction.area_id}
+                = attraction.algorithm_id
+                = attraction.name
 
   %form.main-container#attractions-form
     .main-head
@@ -44,7 +48,8 @@
         = image_tag 'disney_map.jpg'
         - @attractions.each do |attraction|
           %a.attraction-point.attraction-label{ id: "attraction-#{attraction.algorithm_id}-point", class: "area-#{attraction.area_id}",
-           'data-attraction-id' => "#{attraction.algorithm_id}" }
+           'data-attraction-id' => attraction.algorithm_id,
+           'data-area-id' => attraction.area_id}
             = attraction.algorithm_id
 
   #calc-results

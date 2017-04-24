@@ -1,12 +1,22 @@
 item_hover_over = ($obj) ->
   id = $obj.data('attraction-id')
+  area_id = $obj.data('area-id')
+
   $('#attraction-' + id + '-name').addClass('selected')
   $('#attraction-' + id + '-point').addClass('selected')
 
+  $area_name = $('#area-' + area_id + '-name')
+  $area_name.addClass('selected')
+  $area_name.next().slideToggle() if $area_name.next().css('display') == 'none'
+
 item_hover_out = ($obj) ->
   id = $obj.data('attraction-id')
+  area_id = $obj.data('area-id')
+
   $('#attraction-' + id + '-name').removeClass('selected')
   $('#attraction-' + id + '-point').removeClass('selected')
+
+
 
 item_clicked = ($obj) ->
   id = $obj.data('attraction-id')
