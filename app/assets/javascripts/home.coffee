@@ -16,8 +16,24 @@ item_clicked = ($obj) ->
   $('#attractions-form').append("<input type='hidden' name='attraction_ids[][" + id + "]' " +
       "value=" + 1 + ">")
 
+append_start_info = (data) ->
+  $('#calc-results-start').empty()
+  $('#calc-results-start').append("<div class='h'>" + data.start_info.attraction_name + "</div>")
+  $('#calc-results-start').append("<div class='h'>" + data.start_info.start_datetime + "</div>")
+
+append_attraciotns_info = (data) ->
+  $('#calc-results-attractions').empty()
+  $.each(data.attraction_infos,
+    (i, attraction) ->
+      $('#calc-results-attractions').append("<div class='h'>" + attraction.attraction_name + "</div>")
+  )
+
+
+
+
 $attraction_point = (id) ->
   $('#attraction-' + id + '-point')
+
 
 pos_add = (pos1, pos2) ->
   left: pos1['left'] + pos2['left']
@@ -111,7 +127,10 @@ $ ->
         timeout: 5000,
         success:
           (data) ->
-            console.log(data)
+            $menu = $('#calc-results')
+            $menu.animate({'left' : 0 }, 300);
+            append_start_info(data)
+            append_attraciotns_info(data)
         error:
           (data) ->
       )

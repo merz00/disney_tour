@@ -27,9 +27,12 @@ $attractions-right-list-width: 255px;
 
 
 .container {
-  width: 100%;
-  overflow-x: scroll;
+  position: relative;
+}
 
+.main-container {
+  width: 100%;
+  //overflow-x: scroll;
   border: solid black 1px;
   border-radius: 10px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 1);
@@ -50,6 +53,7 @@ $attractions-right-list-width: 255px;
     width: 100%;
     height: auto;
     display: block;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 1);
   }
 
   .attraction-point {
@@ -89,7 +93,7 @@ $attractions-right-list-width: 255px;
 
 .attractions-list {
   padding: 4px;
-  margin: 2px 5px 4px 4px;
+  margin: 6px 5px 4px 4px;
   border-radius: 10px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 1);
 
@@ -121,46 +125,89 @@ $attractions-right-list-width: 255px;
 }
 
 .main-head {
-  background: lightblue;
+  background: rgb(198, 228, 238);
   box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+  @include clearfix();
+  text-align: center;
+  color: #404040;
+
   .set-time-box {
-    height: 32px;
+    @include clearfix();
+    display: inline-block;
+    height: 28px;
     padding-top: 8px;
-    text-align: center;
+
+    .set-time-label {
+      float: left;
+      margin-left: 10px;
+    }
 
     input[type=text] {
-      height: 15px;
+      height: 14px;
       width:  80px;
       text-align: center;
+
       border: solid 1px gray;
       box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
       border-radius: 4px;
 
+      padding-top: 4px;
     }
 
     select {
       height: 20px;
       box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+
+      padding-top: 4px;
+
     }
+  }
 
-    .calc-submit-btn {
-      float: right;
-      font-size: 14px;
-      margin-top: -2px;
-      padding: 3px 12px;
-      margin-right: 10px;
-      border-radius: 4px;
-      border: solid 1px blue;
-      box-shadow: 0 0 4px rgba(0, 0, 1, 1);
+  .calc-submit-btn {
+    float: right;
+    font-size: 14px;
+    margin-top: 8px;
+    padding: 3px 12px;
+    margin-right: 10px;
+    border-radius: 4px;
+    border: solid 1px blue;
+    box-shadow: 0 0 4px rgba(0, 0, 0.7, 1);
 
-      background-color: rgb(0, 61, 168);
-      color: whitesmoke;
+    background-color: rgb(0, 20, 248);
+    color: whitesmoke;
 
-      &:hover {
-        opacity: 0.8;
-        cursor: pointer;
-      }
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
     }
+  }
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 400px;
+  color: white;
+  background-color: rgba(60, 60, 80, 0.95);
+}
+
+#calc-results {
+  position: fixed;
+  left: -300px;
+  top: 0;
+  height: 100%;
+  width: 300px;
+  color: white;
+  background-color: rgba(60, 60, 80, 0.95);
+
+  #calc-results-start {
+    margin: 30px 10px;
+  }
+
+  #calc-results-attractions {
+    margin: 30px 10px;
   }
 }
 
