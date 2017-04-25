@@ -42,7 +42,7 @@ h1 {
 }
 
 .main-container {
-  //max-width: 800px;
+  max-width: 800px;
   //height: 40vh;
   //overflow-x: scroll;
   //margin-left: $sidebar-width;
@@ -76,19 +76,38 @@ h1 {
     }
   }
 
+  @media screen and (min-width: 800px) {
+    /* 表示領域が800px以上の場合に適用するスタイル */
+    .attraction-point {
+      height: 30px;
+      width:  30px;
+      line-height: 30;
+      font-size: 20px;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    /* 表示領域が800px以下の場合に適用するスタイル */
+    .attraction-point {
+      height: 3.2vw;
+      width:  3.2vw;
+      line-height: 3.2vw;
+      font-size: 2vw;
+    }
+  }
+
+
   .attraction-point {
     border: solid 2px white;
-    height: 20px;
-    width: 20px;
+
     border-radius: 50%;
     text-align: center;
     box-shadow: 0 0 6px rgba(0, 0, 0, 1),0 0 6px rgba(0, 0, 0, 1);
     cursor: pointer;
 
     color: white;
-    line-height: 20px;
+
     vertical-align: middle;
-    font-size: 12px;
+
   }
 
   .selected {
