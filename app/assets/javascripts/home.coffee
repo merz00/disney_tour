@@ -20,11 +20,20 @@ item_hover_out = ($obj) ->
 
 item_clicked = ($obj) ->
   id = $obj.data('attraction-id')
-  $('#attraction-' + id + '-name').addClass('decided')
-  $('#attraction-' + id + '-point').addClass('decided')
 
-  $('#attractions-form').append("<input type='hidden' name='attraction_ids[][" + id + "]' " +
-      "value=" + 1 + ">")
+  if $obj.hasClass('decided')
+    $('#attraction-' + id + '-name').removeClass('decided')
+    $('#attraction-' + id + '-point').removeClass('decided')
+    $('#attraction-form-' + id).remove()
+
+  else
+    $('#attraction-' + id + '-name').addClass('decided')
+    $('#attraction-' + id + '-point').addClass('decided')
+
+    $('#attractions-form').append("<input type='hidden'" +
+        "id='attraction-form-" + id + " " +
+        "name='attraction_ids[][" + id + "]' " +
+        "value=" + 1 + ">")
 
 append_start_info = (data) ->
   $('#calc-results-start').empty()
