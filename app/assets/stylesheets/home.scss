@@ -41,11 +41,19 @@ h1 {
   height: 100vh;
 }
 
-.main-container {
+.attraction-form {
   margin: 0 auto;
-  max-width: 700px;
+  @include clearfix();
+  width: 75%;
+}
 
-  //height: 40vh;
+.main-container {
+  max-width: 600px;
+  max-height: 60vmin;
+  overflow-y: scroll;
+  float: left;
+
+
   //overflow-x: scroll;
   //margin-left: $sidebar-width;
   //border: solid black 1px;
@@ -78,7 +86,7 @@ h1 {
     }
   }
 
-  @media screen and (min-width: 800px) {
+  @media screen and (min-width: 600px) {
     /* 表示領域が800px以上の場合に適用するスタイル */
     .attraction-point {
       height: 30px;
@@ -87,7 +95,7 @@ h1 {
       font-size: 20px;
     }
   }
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 600px) {
     /* 表示領域が800px以下の場合に適用するスタイル */
     .attraction-point {
       height: 3.2vw;
@@ -163,51 +171,53 @@ h1 {
   }
 }
 
-.main-head {
 
-  //box-shadow: 0 0 4px rgba(0, 0, 0, 1);
-  @include clearfix();
-  //text-align: center;
+
+
+.set-time-box {
+  float: left;
   color: #404040;
+  display: inline-block;
+  width: 100px;
+  padding-top: 8px;
+  text-align: center;
 
-  .set-time-box {
-    @include clearfix();
-    display: inline-block;
-    height: 28px;
-    padding-top: 8px;
-
-    .set-time-label {
-      float: left;
-      margin-left: 10px;
-    }
-
-    input[type=text] {
-      height: 14px;
-      width:  80px;
-      text-align: center;
-
-      border: solid 1px gray;
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
-      border-radius: 4px;
-
-      padding-top: 4px;
-    }
-
-    select {
-      height: 20px;
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
-
-      padding-top: 4px;
-
-    }
+  .set-time-label {
+    margin-top: 15px;
   }
 
-  .calc-submit-btn {
-    //float: right;
+  label {
+    text-align: center;
+  }
+  .label-title {
+    font-size: 18px;
+  }
+
+  .set-default-time {
     font-size: 14px;
-    margin-top: 8px;
+  }
+
+  input {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    border: solid 1px gray;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+    border-radius: 4px;
+
+    padding-top: 4px;
+  }
+
+  input[type=text] {
+    height: 14px;
+    width: 80px;
+    text-align: center;
+  }
+
+  input[type=submit] {
+    font-size: 14px;
+    margin-top: 30px;
     padding: 3px 12px;
-    margin-right: 10px;
     border-radius: 4px;
     border: solid 1px blue;
     box-shadow: 0 0 4px rgba(0, 0, 0.7, 1);
@@ -221,6 +231,7 @@ h1 {
     }
   }
 }
+
 
 .sidebar {
   //position: fixed;

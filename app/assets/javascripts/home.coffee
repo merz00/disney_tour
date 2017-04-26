@@ -125,15 +125,13 @@ $ ->
 
   $('#opentime-label').click (
     ->
-      $('#departed_hour   > option[value=08]').attr('selected', true)
-      $('#departed_minute > option[value=00]').attr('selected', true)
+      $('.departed_hour').val("08:00")
   )
 
 
   $('#closetime-label').click (
     ->
-      $('#finished_hour   > option[value=22]').attr('selected', true)
-      $('#finished_minute > option[value=00]').attr('selected', true)
+      $('.finished_hour').val("22:00")
   )
 
   $('#attractions-form').submit (
@@ -161,6 +159,20 @@ $ ->
       $(this).next().slideToggle()
   );
 
+  toTargetDigits = (num, digits) ->
+    num += ''
+    while num.length < digits
+      num = '0' + num
+    num
+
+  date = new Date()
+  hours = date.getHours()
+  minutes = date.getMinutes()
+
+  hh = toTargetDigits(hours, 2)
+  MM = toTargetDigits(minutes, 2)
+  $('.departed_hour').val(hh + ":" + MM)
+  $('.finished_hour').val(hh + ":" + MM)
 
 #  set_routes(1,2)
 #  set_routes(2,4)

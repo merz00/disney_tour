@@ -7,36 +7,38 @@
 .container
   %h1 DisneyTour
 
-  %form.main-container#attractions-form
-    .main-head
+  %form#attractions-form
+    .attraction-form
+      .main-container
+        .attractions-map
+          .attractions-map-wrapper
+            = image_tag 'disney_map.jpg'
+          - @attractions.each do |attraction|
+            %a.attraction-point.attraction-label{ id: "attraction-#{attraction.algorithm_id}-point", class: "area-#{attraction.area_id}",
+             'data-attraction-id' => attraction.algorithm_id,
+             'data-area-id' => attraction.area_id}
+              = attraction.algorithm_id
+
+
       .set-time-box
         .set-time-label
-          %label.control-label{for: 'departed_date'} 予定日
+          %label.label-title.control-label{for: 'departed_date'} 予定日
           = text_field_tag 'departed[date]', DateTime.now.to_s, class: 'form-control date-picker'
 
         .set-time-label
-          %label.control-label{for: 'departed_hour'} 出発時刻
-          = select_hour DateTime.now.hour,     {}, id: 'departed_hour', name: 'departed[hour]'
-          = select_minute DateTime.now.minute, {}, id: 'departed_minute', name: 'departed[minute]'
+          %label.label-title{for: 'departed_time'} 出発時刻
+          %input.departed_hour{type: :time, name: 'departed_time'}
 
-          %lable#opentime-label 開園時に始める
+          %lable.set-default-time#opentime-label 開園時にする
 
         .set-time-label
-          %label.control-label{for: 'finished_hour'} 終了時刻
-          = select_hour DateTime.now.hour,     {}, id: 'finished_hour', name: 'finished[hour]'
-          = select_minute DateTime.now.minute, {}, id: 'finished_minute', name: 'finished[minute]'
+          %label.label-title{for: 'finished_time'} 終了時刻
+          %input.finished_hour{type: :time, name: 'finished_time'}
 
-          %lable#closetime-label 閉園時に終える
-      = submit_tag 'サーチ', id: 'search-submit-btn', class: 'calc-submit-btn'
+          %lable.set-default-time#closetime-label 閉園時にする
+        = submit_tag 'サーチ', id: 'search-submit-btn', class: 'calc-submit-btn'
 
-      .attractions-map
-        .attractions-map-wrapper
-          = image_tag 'disney_map.jpg'
-        - @attractions.each do |attraction|
-          %a.attraction-point.attraction-label{ id: "attraction-#{attraction.algorithm_id}-point", class: "area-#{attraction.area_id}",
-           'data-attraction-id' => attraction.algorithm_id,
-           'data-area-id' => attraction.area_id}
-            = attraction.algorithm_id
+
 
   .sidebar
     .area-names
