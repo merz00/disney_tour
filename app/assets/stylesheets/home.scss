@@ -2,11 +2,767 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.new_home_controller_form {
-  background-image: url(disney_map.jpg);
+$area-0-color: rgb(224, 35, 35);   // ワールドバザール
+$area-1-color: green;             // アドベンチャーランド
+$area-2-color: rgb(169, 39, 10);  // ウエスタンランド
+$area-3-color: rgb(0, 167, 234);  // クリッターカントリー
+$area-4-color: rgb(145, 63, 147); // ファンタジーランド
+$area-5-color: rgb(225, 120, 0);  // トゥーンランド
+$area-6-color: rgb(0, 61, 168);   // トゥモローランド
 
-  .attraction-label {
-    color: white;
+$attractions-left-list-width: 270px;
+$attractions-right-list-width: 255px;
+$sidebar-width: 300px;
+
+@mixin clearfix() {
+  &:after {
+    clear: both;
+    display: block;
+    content: '';
   }
 }
+
+@mixin point_selected() {
+
+}
+
+body {
+  background: rgb(208, 238, 238);
+}
+
+h1 {
+  margin: 0 auto;
+  width: 200px;
+
+}
+
+.container {
+  position: relative;
+  height: 100vh;
+}
+
+.attraction-form {
+  margin: 0 auto;
+  @include clearfix();
+  width: 75%;
+  min-width: 700px;
+  overflow-x: scroll;
+
+}
+
+.main-container {
+  max-width: 600px;
+  max-height: 60vmin;
+  overflow-y: scroll;
+  float: left;
+
+
+  //overflow-x: scroll;
+  //margin-left: $sidebar-width;
+  //border: solid black 1px;
+  //border-radius: 10px;
+  //box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+}
+
+.attractions-wrapper {
+  @include clearfix();  }
+
+.attractions-map {
+
+  position: relative;
+  width: 100%;
+  //margin: 0 auto;
+
+  .attractions-map-wrapper {
+
+    width: 100%;
+
+    img {
+      z-index: -100;
+      height: auto;
+      width: 100%;
+
+      display: block;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+      overflow-y: scroll;
+    }
+  }
+
+  @media screen and (min-width: 600px) {
+    /* 表示領域が800px以上の場合に適用するスタイル */
+    .attraction-point {
+      height: 30px;
+      width:  30px;
+      line-height: 30px;
+      font-size: 20px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    /* 表示領域が800px以下の場合に適用するスタイル */
+    .attraction-point {
+      height: 3.2vw;
+      width:  3.2vw;
+      line-height: 3.2vw;
+      font-size: 2vw;
+    }
+  }
+
+
+  .attraction-point {
+    border: solid 2px white;
+
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 1),0 0 6px rgba(0, 0, 0, 1);
+    cursor: pointer;
+
+    color: white;
+
+    vertical-align: middle;
+
+  }
+
+  .selected {
+    transform: scale(1.3);
+    transition-duration: .2s;
+    opacity: 0.94;
+  }
+
+  .decided {
+    transform: scale(1.5);
+    transition-duration: .2s;
+    //height: 25px;
+    //width: 25px;
+    //line-height: 25px;
+    //
+    //margin-left: -2px;
+    //margin-top: -2px;
+  }
+
+
+}
+
+.attractions-list {
+  padding: 4px;
+  margin: 6px 12px 6px 12px;
+  border-radius: 10px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+  display: none;
+
+  .attraction-name {
+    text-align: left;
+
+    color: white;
+    padding-left: 16px;
+    margin: 2px 0;
+    border-radius: 8px;
+    cursor: pointer;
+
+    font-size: 14px;
+    line-height: 1.55em;
+    letter-spacing: 0.001em;
+    opacity: 0.8;
+  }
+
+  .decided {
+    opacity: 0.8;
+  }
+
+  .selected {
+//    opacity: 1.0;
+  }
+}
+
+
+
+
+.set-time-box {
+  float: left;
+  color: #404040;
+  display: inline-block;
+  width: 100px;
+  padding-top: 8px;
+  text-align: center;
+
+  .set-time-label {
+    margin-top: 15px;
+  }
+
+  label {
+    text-align: center;
+  }
+  .label-title {
+    font-size: 18px;
+  }
+
+  .set-default-time {
+    font-size: 14px;
+  }
+
+  input {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    border: solid 1px gray;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+    border-radius: 4px;
+
+    padding-top: 4px;
+  }
+
+  input[type=text] {
+    height: 14px;
+    width: 80px;
+    text-align: center;
+  }
+
+  input[type=submit] {
+    font-size: 14px;
+    margin-top: 30px;
+    padding: 3px 12px;
+    border-radius: 4px;
+    border: solid 1px blue;
+    box-shadow: 0 0 4px rgba(0, 0, 0.7, 1);
+
+    background-color: rgb(0, 20, 248);
+    color: whitesmoke;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}
+
+
+.sidebar {
+  //position: fixed;
+  //left: 0;
+  //top: 0;
+  //bottom: 0;
+  height: 40vh;
+  width: 100%;  //width: $sidebar-width;
+  color: white;
+  background-color: rgba(60, 60, 80, 0.95);
+  overflow-y: scroll;
+
+  .area-names {
+    margin-top: 10px;
+    text-align: left;
+
+  }
+
+  .area-name {
+    border-radius: 12px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+    font-size: 14px;
+    padding: 4px 10px;
+    margin: 4px 6px;
+    opacity: 0.9;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.99;
+
+    }
+  }
+
+  .selected {
+    opacity: 0.99;
+  }
+}
+
+
+
+#calc-results {
+  position: fixed;
+  left: -300px;
+  top: 0;
+  height: 100%;
+  width: 300px;
+  color: white;
+  background-color: rgba(60, 60, 80, 0.95);
+
+  #calc-results-start {
+    margin: 30px 10px;
+  }
+
+  #calc-results-imgns {
+    margin: 30px 10px;
+  }
+}
+
+.area-6-list {
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-6-color, 5%);
+
+  .selected {
+    //background-color: lighten($area-6-color, 17%);
+  }
+
+  .decided {
+    background-color: lighten($area-6-color, 17%);
+  }
+
+}
+
+.area-5-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-5-color, 5%);
+
+  .selected {
+    //background-color: lighten($area-5-color, 10%);
+  }
+
+  .decided {
+    background-color: lighten($area-5-color, 10%);
+  }
+}
+
+.area-4-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-4-color, 5%);
+
+  .selected {
+    //background-color: lighten($area-4-color, 10%);
+  }
+
+  .decided {
+    background-color: lighten($area-4-color, 10%);
+  }
+}
+
+//.left-list {
+//  float: left;
+//  width: $attractions-left-list-width;
+//}
+//
+//.right-list {
+//  float: right;
+//  width: $attractions-right-list-width;
+//}
+
+.area-0-list {
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-0-color, 10%);
+
+  .selected {
+    //background-color: lighten($area-0-color, 7%);
+  }
+
+  .decided {
+    background-color: lighten($area-0-color, 7%);
+  }
+}
+
+.area-1-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-1-color, 4%);
+
+  .selected {
+    // background-color: lighten($area-1-color, 8%);
+  }
+
+  .decided {
+    background-color: lighten($area-1-color, 8%);
+  }
+}
+
+.area-2-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-2-color, 5%);
+
+  .selected {
+    //background-color: lighten($area-2-color, 8%);
+  }
+
+  .decided {
+    background-color: lighten($area-2-color, 8%);
+  }
+}
+
+.area-3-list {
+
+  //position: absolute;
+  //bottom: 0;
+  //right: 0;
+  background-color: darken($area-3-color, 9%);
+
+  .selected {
+    background-color: lighten($area-3-color, 4%);
+  }
+
+  .decided {
+    background-color: lighten($area-3-color, 4%);
+  }
+}
+
+.area-0 {
+  background-color: $area-0-color;
+  &.selected {
+    background-color: lighten($area-0-color, 10%);
+  }
+}
+
+.area-1 {
+  background-color: $area-1-color;
+  &.selected {
+    background-color: lighten($area-1-color, 10%);
+  }
+}
+
+.area-2 {
+  background-color: $area-2-color;
+  &.selected {
+    background-color: lighten($area-2-color, 10%);
+  }
+}
+
+.area-3 {
+  background-color: $area-3-color;
+  &.selected {
+    background-color: lighten($area-3-color, 10%);
+  }
+}
+
+.area-4 {
+  background-color: $area-4-color;
+  &.selected {
+    background-color: lighten($area-4-color, 10%);
+  }
+}
+
+.area-5 {
+  background-color: $area-5-color;
+  &.selected {
+    background-color: lighten($area-5-color, 10%);
+  }
+}
+
+.area-6 {
+  background-color: $area-6-color;
+  &.selected {
+    background-color: lighten($area-6-color, 10%);
+  }
+}
+
+.route-sphere {
+  position: absolute;
+  background-color: rgb(0, 27, 234);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+  opacity: 0.9;
+  border: solid 1px rgb(255, 255, 255);
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  margin-left: 6px;
+  margin-top: 6px;
+}
+
+
+#attraction-0-point {
+  position: absolute;
+  top: 58%;
+  left: 55%;
+}
+
+#attraction-1-point {
+  position: absolute;
+  top: 75%;
+  left: 37%;
+}
+
+#attraction-2-point {
+  position: absolute;
+  top: 56%;
+  left: 32%;
+}
+
+#attraction-3-point {
+  position: absolute;
+  top: 54%;
+  left: 26%;
+}
+
+#attraction-4-point {
+  position: absolute;
+  top: 46%;
+  left: 17%;
+}
+
+#attraction-5-point {
+  position: absolute;
+  top: 42%;
+  left: 30%;
+}
+
+#attraction-6-point {
+  position: absolute;
+  top: 33%;
+  left: 32%;
+}
+
+#attraction-7-point {
+  position: absolute;
+  top: 40%;
+  left: 15%;
+}
+
+#attraction-8-point {
+  position: absolute;
+  top: 35%;
+  left: 21%;
+}
+
+#attraction-9-point {
+  position: absolute;
+  top: 12%;
+  left: 29%;
+}
+
+#attraction-10-point {
+  position: absolute;
+  top: 19%;
+  left: 17%;
+}
+
+#attraction-11-point {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+}
+
+#attraction-12-point {
+  position: absolute;
+  top: 30%;
+  left: 45%;
+}
+
+#attraction-13-point {
+  position: absolute;
+  top: 33%;
+  left: 55%;
+}
+
+#attraction-14-point {
+  position: absolute;
+  top: 30%;
+  left: 61%;
+}
+
+#attraction-15-point {
+  position: absolute;
+  top: 24%;
+  left: 44%;
+}
+
+#attraction-16-point {
+  position: absolute;
+  top: 26%;
+  left: 52%;
+}
+
+#attraction-17-point {
+  position: absolute;
+  top: 14%;
+  left: 43%;
+}
+
+#attraction-18-point {
+  position: absolute;
+  top: 14%;
+  left: 64%;
+}
+
+#attraction-19-point {
+  position: absolute;
+  top: 23%;
+  left: 59%;
+}
+
+#attraction-20-point {
+  position: absolute;
+  top: 23%;
+  left: 71%;
+}
+
+#attraction-21-point {
+  position: absolute;
+  top: 10%;
+  left: 78%;
+}
+
+#attraction-22-point {
+  position: absolute;
+  top: 28%;
+  left: 87%;
+}
+
+#attraction-23-point {
+  position: absolute;
+  top: 33%;
+  left: 90%;
+}
+
+#attraction-24-point {
+  position: absolute;
+  top:  39%;
+  left: 91%;
+}
+
+#attraction-25-point {
+  position: absolute;
+  top:  40%;
+  left: 87%;
+}
+
+#attraction-26-point {
+  position: absolute;
+  top:  38%;
+  left: 82%;
+}
+
+#attraction-27-point {
+  position: absolute;
+  top:  74%;
+  left: 70%;
+}
+
+#attraction-28-point {
+  position: absolute;
+  top:  61%;
+  left: 82%;
+}
+
+#attraction-29-point {
+  position: absolute;
+  top:  59%;
+  left: 63%;
+}
+
+#attraction-30-point {
+   position: absolute;
+   top:  38%;
+   left: 70%;
+}
+
+#attraction-32-point {
+  position: absolute;
+  top:  77%;
+  left: 64%;
+}
+
+#attraction-33-point {
+  position: absolute;
+  top:  39%;
+  left: 50%;
+}
+
+#attraction-34-point {
+  position: absolute;
+  top:  33%;
+  left: 80%;
+}
+
+#attraction-35-point {
+  position: absolute;
+  top:  64%;
+  left: 24%;
+}
+
+#attraction-36-point {
+  position: absolute;
+  top:  50%;
+  left: 64%;
+}
+
+
+
+.animation-target {
+  -webkit-animation: animation 1000ms linear both;
+  animation: animation 1000ms linear both;
+}
+
+
+.animation-target {
+  -webkit-animation: animation 1000ms linear both;
+  animation: animation 1000ms linear both;
+}
+
+/* Generated with Bounce.js. Edit at https://goo.gl/SOKsHo */
+
+@-webkit-keyframes animation {
+  0% { -webkit-transform: matrix3d(0.2, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.2, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  3.4% { -webkit-transform: matrix3d(0.452, 0, 0, 0, 0, 0.318, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.452, 0, 0, 0, 0, 0.318, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  4.7% { -webkit-transform: matrix3d(0.56, 0, 0, 0, 0, 0.448, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.56, 0, 0, 0, 0, 0.448, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  6.81% { -webkit-transform: matrix3d(0.727, 0, 0, 0, 0, 0.688, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.727, 0, 0, 0, 0, 0.688, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  9.41% { -webkit-transform: matrix3d(0.907, 0, 0, 0, 0, 0.983, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.907, 0, 0, 0, 0, 0.983, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  10.21% { -webkit-transform: matrix3d(0.953, 0, 0, 0, 0, 1.061, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.953, 0, 0, 0, 0, 1.061, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  13.61% { -webkit-transform: matrix3d(1.098, 0, 0, 0, 0, 1.281, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.098, 0, 0, 0, 0, 1.281, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  14.11% { -webkit-transform: matrix3d(1.113, 0, 0, 0, 0, 1.297, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.113, 0, 0, 0, 0, 1.297, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  17.52% { -webkit-transform: matrix3d(1.166, 0, 0, 0, 0, 1.306, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.166, 0, 0, 0, 0, 1.306, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  18.72% { -webkit-transform: matrix3d(1.17, 0, 0, 0, 0, 1.279, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.17, 0, 0, 0, 0, 1.279, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  21.32% { -webkit-transform: matrix3d(1.157, 0, 0, 0, 0, 1.197, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.157, 0, 0, 0, 0, 1.197, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  24.32% { -webkit-transform: matrix3d(1.12, 0, 0, 0, 0, 1.098, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.12, 0, 0, 0, 0, 1.098, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  25.23% { -webkit-transform: matrix3d(1.107, 0, 0, 0, 0, 1.073, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.107, 0, 0, 0, 0, 1.073, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  29.03% { -webkit-transform: matrix3d(1.05, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.05, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  29.93% { -webkit-transform: matrix3d(1.038, 0, 0, 0, 0, 0.985, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.038, 0, 0, 0, 0, 0.985, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  35.54% { -webkit-transform: matrix3d(0.984, 0, 0, 0, 0, 0.965, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.984, 0, 0, 0, 0, 0.965, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  36.74% { -webkit-transform: matrix3d(0.977, 0, 0, 0, 0, 0.967, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.977, 0, 0, 0, 0, 0.967, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  41.04% { -webkit-transform: matrix3d(0.969, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.969, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  44.44% { -webkit-transform: matrix3d(0.973, 0, 0, 0, 0, 0.988, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.973, 0, 0, 0, 0, 0.988, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  52.15% { -webkit-transform: matrix3d(0.993, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.993, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  59.86% { -webkit-transform: matrix3d(1.005, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.005, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  63.26% { -webkit-transform: matrix3d(1.006, 0, 0, 0, 0, 1.002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.006, 0, 0, 0, 0, 1.002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  75.28% { -webkit-transform: matrix3d(1.001, 0, 0, 0, 0, 1.002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.001, 0, 0, 0, 0, 1.002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  85.49% { -webkit-transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  90.69% { -webkit-transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  100% { -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+}
+
+@keyframes animation {
+  0% { -webkit-transform: matrix3d(0.2, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.2, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  3.4% { -webkit-transform: matrix3d(0.452, 0, 0, 0, 0, 0.318, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.452, 0, 0, 0, 0, 0.318, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  4.7% { -webkit-transform: matrix3d(0.56, 0, 0, 0, 0, 0.448, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.56, 0, 0, 0, 0, 0.448, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  6.81% { -webkit-transform: matrix3d(0.727, 0, 0, 0, 0, 0.688, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.727, 0, 0, 0, 0, 0.688, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  9.41% { -webkit-transform: matrix3d(0.907, 0, 0, 0, 0, 0.983, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.907, 0, 0, 0, 0, 0.983, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  10.21% { -webkit-transform: matrix3d(0.953, 0, 0, 0, 0, 1.061, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.953, 0, 0, 0, 0, 1.061, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  13.61% { -webkit-transform: matrix3d(1.098, 0, 0, 0, 0, 1.281, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.098, 0, 0, 0, 0, 1.281, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  14.11% { -webkit-transform: matrix3d(1.113, 0, 0, 0, 0, 1.297, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.113, 0, 0, 0, 0, 1.297, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  17.52% { -webkit-transform: matrix3d(1.166, 0, 0, 0, 0, 1.306, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.166, 0, 0, 0, 0, 1.306, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  18.72% { -webkit-transform: matrix3d(1.17, 0, 0, 0, 0, 1.279, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.17, 0, 0, 0, 0, 1.279, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  21.32% { -webkit-transform: matrix3d(1.157, 0, 0, 0, 0, 1.197, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.157, 0, 0, 0, 0, 1.197, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  24.32% { -webkit-transform: matrix3d(1.12, 0, 0, 0, 0, 1.098, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.12, 0, 0, 0, 0, 1.098, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  25.23% { -webkit-transform: matrix3d(1.107, 0, 0, 0, 0, 1.073, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.107, 0, 0, 0, 0, 1.073, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  29.03% { -webkit-transform: matrix3d(1.05, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.05, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  29.93% { -webkit-transform: matrix3d(1.038, 0, 0, 0, 0, 0.985, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.038, 0, 0, 0, 0, 0.985, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  35.54% { -webkit-transform: matrix3d(0.984, 0, 0, 0, 0, 0.965, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.984, 0, 0, 0, 0, 0.965, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  36.74% { -webkit-transform: matrix3d(0.977, 0, 0, 0, 0, 0.967, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.977, 0, 0, 0, 0, 0.967, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  41.04% { -webkit-transform: matrix3d(0.969, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.969, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  44.44% { -webkit-transform: matrix3d(0.973, 0, 0, 0, 0, 0.988, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.973, 0, 0, 0, 0, 0.988, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  52.15% { -webkit-transform: matrix3d(0.993, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.993, 0, 0, 0, 0, 0.996, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  59.86% { -webkit-transform: matrix3d(1.005, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.005, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  63.26% { -webkit-transform: matrix3d(1.006, 0, 0, 0, 0, 1.002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.006, 0, 0, 0, 0, 1.002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  75.28% { -webkit-transform: matrix3d(1.001, 0, 0, 0, 0, 1.002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1.001, 0, 0, 0, 0, 1.002, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  85.49% { -webkit-transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  90.69% { -webkit-transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  100% { -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+}
+
 

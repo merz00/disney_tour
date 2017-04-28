@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: disney_tour_production
-  username: disney_tour
-  password: <%= ENV['DISNEY_TOUR_DATABASE_PASSWORD'] %>
+  username: root
+  socket: '/var/lib/mysql/mysql.sock'

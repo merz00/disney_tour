@@ -1,11 +1,70 @@
-%h1 hello_world
+%script{ src: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js' }
+%script{ src: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js' }
+%link{ rel: 'stylesheet',  href: 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css' }
 
-= form_for @form, url: '/calc', method: :get, class: 'form' do |f|
-  = f.collection_check_boxes(:attractions, @attractions, :name, :name) do |b|
-    .attraction-label
-      = b.label { b.check_box + b.text }
-      %br
-  = f.submit
+
+
+.container
+  %h1 DisneyTour
+
+  %form#attractions-form
+    .attraction-form
+      .main-container
+        .attractions-map
+          .attractions-map-wrapper
+            = image_tag 'disney_map.jpg'
+          - @attractions.each do |attraction|
+            %a.attraction-point.attraction-label{ id: "attraction-#{attraction.algorithm_id}-point", class: "area-#{attraction.area_id}",
+             'data-attraction-id' => attraction.algorithm_id,
+             'data-area-id' => attraction.area_id}
+              = attraction.algorithm_id
+
+
+      .set-time-box
+        .set-time-label
+          %label.label-title.control-label{for: 'departed_date'} 予定日
+          = text_field_tag 'departed[date]', DateTime.now.to_s, class: 'form-control date-picker'
+
+        .set-time-label
+          %label.label-title{for: 'departed_time'} 出発時刻
+          %input.departed_hour{type: :time, name: 'departed_time'}
+
+          %lable.set-default-time#opentime-label 開園時にする
+
+        .set-time-label
+          %label.label-title{for: 'finished_time'} 終了時刻
+          %input.finished_hour{type: :time, name: 'finished_time'}
+
+          %lable.set-default-time#closetime-label 閉園時にする
+        = submit_tag 'サーチ', id: 'search-submit-btn', class: 'calc-submit-btn'
+
+
+
+  .sidebar
+    .area-names
+      - @areas.each do |area|
+        .acMenu
+          %dt.area-name{ id: "area-#{area.id}-name",
+                        class: "area-#{area.id}-list" }
+            = area.name
+          .attractions-list{ class: "area-#{area.id}-list" }
+            - area.attractions.each do |attraction|
+              %dd.attraction-name.attraction-label{ id: "attraction-#{attraction.algorithm_id}-name",
+                'data-attraction-id' => attraction.algorithm_id,
+                'data-area-id' => attraction.area_id}
+                = attraction.algorithm_id
+                = attraction.name
+
+  #calc-results
+    #calc-results-start
+    #calc-results-attractions
+
+
+
+
+
+
+
 
 
 
