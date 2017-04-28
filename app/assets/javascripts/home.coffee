@@ -37,14 +37,15 @@ item_clicked = ($obj) ->
 
 append_start_info = (data) ->
   $('#calc-results-start').empty()
-  $('#calc-results-start').append("<div class='h'>" + data.start_info.attraction_name + "</div>")
-  $('#calc-results-start').append("<div class='h'>" + data.start_info.start_datetime + "</div>")
+  $('#calc-results-start').append("<div class='attraction-name'>" + data.start_info.attraction_name + "</div>")
+  $('#calc-results-start').append("<div class='start-time'>" + data.start_info.start_datetime + "</div>")
 
 append_attraciotns_info = (data) ->
   $('#calc-results-attractions').empty()
   $.each(data.attraction_infos,
     (i, attraction) ->
-      $('#calc-results-attractions').append("<div class='h'>" + attraction.attraction_name + "</div>")
+      $('#calc-results-attractions').append("<div class='attraction'><div class='attraction-name'>" + attraction.attraction_name + "</div>" +
+          "<div class='arrive-time'>" + attraction.arrive_time + "</div></div>")
   )
 
 
@@ -144,8 +145,8 @@ $ ->
         timeout: 5000,
         success:
           (data) ->
-            $menu = $('#calc-results')
-            $menu.animate({'left' : 0 }, 300);
+            $('.tab-content').css('display', 'none')
+            $('#search-result-tab').css('display', 'block')
             append_start_info(data)
             append_attraciotns_info(data)
         error:
@@ -173,6 +174,13 @@ $ ->
   MM = toTargetDigits(minutes, 2)
   $('.departed_hour').val(hh + ":" + MM)
   $('.finished_hour').val(hh + ":" + MM)
+
+
+  $('#ui-tab li').click(
+    ->
+      $('.tab-content').css('display', 'none')
+      $($(@).data('tab-content')).css('display', 'block')
+  )
 
 #  set_routes(1,2)
 #  set_routes(2,4)
