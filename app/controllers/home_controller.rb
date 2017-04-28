@@ -10,7 +10,7 @@ class HomeController < ApplicationController
 
 
     hash = {}
-    File.open("#{Rails.root.to_s}/lib/others/cpp/sample.txt") do |file|
+    File.open("#{Rails.root.to_s}/lib/others/cpp/sample.json") do |file|
       hash = JSON.load(file)
     end
 

@@ -144,8 +144,8 @@ $ ->
         timeout: 5000,
         success:
           (data) ->
-            $menu = $('#calc-results')
-            $menu.animate({'left' : 0 }, 300);
+            $('.tab-content').css('display', 'none')
+            $('#search-result-tab').css('display', 'block')
             append_start_info(data)
             append_attraciotns_info(data)
         error:
@@ -173,6 +173,13 @@ $ ->
   MM = toTargetDigits(minutes, 2)
   $('.departed_hour').val(hh + ":" + MM)
   $('.finished_hour').val(hh + ":" + MM)
+
+
+  $('#ui-tab li').click(
+    ->
+      $('.tab-content').css('display', 'none')
+      $($(@).data('tab-content')).css('display', 'block')
+  )
 
 #  set_routes(1,2)
 #  set_routes(2,4)
