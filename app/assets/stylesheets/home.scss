@@ -299,7 +299,7 @@ h1 {
 
 #calc-results {
   #calc-results-start {
-    margin: 30px 10px;
+    margin: 0 10px;
     @include clearfix();
     .attraction-name {
       float: left;
@@ -311,7 +311,7 @@ h1 {
   }
 
   #calc-results-attractions {
-    margin: 30px 10px;
+    margin: 0 10px;
 
     .attraction {
       @include clearfix();

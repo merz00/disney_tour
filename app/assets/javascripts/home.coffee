@@ -37,15 +37,20 @@ item_clicked = ($obj) ->
 
 append_start_info = (data) ->
   $('#calc-results-start').empty()
-  $('#calc-results-start').append("<div class='attraction-name'>" + data.start_info.attraction_name + "</div>")
-  $('#calc-results-start').append("<div class='start-time'>" + data.start_info.start_datetime + "</div>")
+  $('#calc-results-start').append(
+      "<div class='start-time'>" + data.start_info.start_datetime + "</div>" +
+      "<div class='attraction-name'>" + data.start_info.attraction_name + "</div>"
+  )
 
 append_attraciotns_info = (data) ->
   $('#calc-results-attractions').empty()
   $.each(data.attraction_infos,
     (i, attraction) ->
-      $('#calc-results-attractions').append("<div class='attraction'><div class='attraction-name'>" + attraction.attraction_name + "</div>" +
-          "<div class='arrive-time'>" + attraction.arrive_time + "</div></div>")
+      $('#calc-results-attractions').append(
+        "<div class='attraction'>" +
+        "<div class='arrive-time'>" + attraction.arrive_time + "</div>" +
+        "<div class='attraction-name'>" + attraction.attraction_name
+        )
   )
 
 
