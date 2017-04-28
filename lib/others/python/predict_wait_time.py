@@ -18,6 +18,8 @@ def main(date, hour, weather):
     while hour <= 22:
         df[str(hour)+':00'] = map(int, rand(len(df)) * 60)
         hour += 1
+    del df['site_id']
+    del df['name']
     df.to_csv('pred_wait_time.csv', index=False)
 
 
