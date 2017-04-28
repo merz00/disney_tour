@@ -20,7 +20,7 @@ def main(date, hour, weather):
         hour += 1
     del df['site_id']
     del df['name']
-    df.to_csv('pred_wait_time.csv', index=False)
+    df.to_csv('../cpp/input/pred_wait_time.csv', index=False)
 
 
 if __name__ == '__main__':
