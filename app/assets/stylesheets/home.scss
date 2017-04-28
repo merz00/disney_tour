@@ -297,23 +297,34 @@ h1 {
 
 
 
-//#calc-results {
-//  position: fixed;
-//  left: -300px;
-//  top: 0;
-//  height: 100%;
-//  width: 300px;
-//  color: white;
-//  background-color: rgba(60, 60, 80, 0.95);
-//
-//  #calc-results-start {
-//    margin: 30px 10px;
-//  }
-//
-//  #calc-results-imgns {
-//    margin: 30px 10px;
-//  }
-//}
+#calc-results {
+  #calc-results-start {
+    margin: 30px 10px;
+    @include clearfix();
+    .attraction-name {
+      float: left;
+    }
+
+    .start-time {
+      float: left;
+    }
+  }
+
+  #calc-results-attractions {
+    margin: 30px 10px;
+
+    .attraction {
+      @include clearfix();
+      .attraction-name {
+        float: left;
+      }
+
+      .arrive-time {
+        float: left;
+      }
+    }
+  }
+}
 
 .area-6-list {
   //position: absolute;
