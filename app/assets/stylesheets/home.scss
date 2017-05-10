@@ -12,6 +12,7 @@ $area-6-color: rgb(0, 61, 168);   // トゥモローランド
 
 $attractions-left-list-width: 270px;
 $attractions-right-list-width: 255px;
+$sidebar-width: 300px;
 
 @mixin clearfix() {
   &:after {
@@ -25,46 +26,100 @@ $attractions-right-list-width: 255px;
 
 }
 
+body {
+  background: rgb(208, 238, 238);
+}
+
+h1 {
+  margin: 0 auto;
+  width: 200px;
+
+}
 
 .container {
-  width: 100%;
+  position: relative;
+  height: 100vh;
+}
+
+.attraction-form {
+  margin: 0 auto;
+  @include clearfix();
+  width: 75%;
+  min-width: 700px;
   overflow-x: scroll;
 
-  border: solid black 1px;
-  border-radius: 10px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+}
+
+.main-container {
+  max-width: 600px;
+  max-height: 60vmin;
+  overflow-y: scroll;
+  float: left;
+
+
+  //overflow-x: scroll;
+  //margin-left: $sidebar-width;
+  //border: solid black 1px;
+  //border-radius: 10px;
+  //box-shadow: 0 0 3px rgba(0, 0, 0, 1);
 }
 
 .attractions-wrapper {
-  @include clearfix();
-  max-width: 1250px;
-  min-width: 800px;
-}
+  @include clearfix();  }
 
 .attractions-map {
-  float: left;
-  width: calc(100% - #{$attractions-left-list-width} - #{$attractions-right-list-width} );
-  position: relative;
 
-  img {
+  position: relative;
+  width: 100%;
+  //margin: 0 auto;
+
+  .attractions-map-wrapper {
+
     width: 100%;
-    height: auto;
-    display: block;
+
+    img {
+      z-index: -100;
+      height: auto;
+      width: 100%;
+
+      display: block;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+      overflow-y: scroll;
+    }
   }
+
+  @media screen and (min-width: 600px) {
+    /* 表示領域が800px以上の場合に適用するスタイル */
+    .attraction-point {
+      height: 30px;
+      width:  30px;
+      line-height: 30px;
+      font-size: 20px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    /* 表示領域が800px以下の場合に適用するスタイル */
+    .attraction-point {
+      height: 3.2vw;
+      width:  3.2vw;
+      line-height: 3.2vw;
+      font-size: 2vw;
+    }
+  }
+
 
   .attraction-point {
     border: solid 2px white;
-    height: 20px;
-    width: 20px;
+
     border-radius: 50%;
     text-align: center;
     box-shadow: 0 0 6px rgba(0, 0, 0, 1),0 0 6px rgba(0, 0, 0, 1);
     cursor: pointer;
 
     color: white;
-    line-height: 20px;
+
     vertical-align: middle;
-    font-size: 12px;
+
   }
 
   .selected {
@@ -87,78 +142,185 @@ $attractions-right-list-width: 255px;
 
 }
 
+
 .attractions-list {
   padding: 4px;
-  margin: 2px 5px 4px 4px;
+  margin: 6px 12px 6px 12px;
   border-radius: 10px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+  display: none;
 
   .attraction-name {
+    text-align: left;
+
     color: white;
-    padding: 0 4px;
+    padding-left: 16px;
     margin: 2px 0;
     border-radius: 8px;
     cursor: pointer;
 
-    font-size: 11px;
+    font-size: 14px;
     line-height: 1.55em;
     letter-spacing: 0.001em;
+    opacity: 0.8;
   }
 
-
-
   .decided {
-    //color: red;
-    opacity: 0.88;
-
+    opacity: 0.8;
   }
 
   .selected {
-    //  color: gold;
-    opacity: 1.0;
-
+//    opacity: 1.0;
   }
 }
 
-.main-head {
-  background: lightblue;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 1);
-  .set-time-box {
-    height: 32px;
-    padding-top: 8px;
+
+
+
+.set-time-box {
+  float: left;
+  color: #404040;
+  display: inline-block;
+  width: 100px;
+  padding-top: 8px;
+  text-align: center;
+
+  .set-time-label {
+    margin-top: 15px;
+  }
+
+  label {
     text-align: center;
+  }
+  .label-title {
+    font-size: 18px;
+  }
 
-    input[type=text] {
-      height: 15px;
-      width:  80px;
-      text-align: center;
-      border: solid 1px gray;
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
-      border-radius: 4px;
+  .set-default-time {
+    font-size: 14px;
+  }
 
+  input {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    border: solid 1px gray;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+    border-radius: 4px;
+
+    padding-top: 4px;
+  }
+
+  input[type=text] {
+    height: 14px;
+    width: 80px;
+    text-align: center;
+  }
+
+  input[type=submit] {
+    font-size: 14px;
+    margin-top: 30px;
+    padding: 3px 12px;
+    border-radius: 4px;
+    border: solid 1px blue;
+    box-shadow: 0 0 4px rgba(0, 0, 0.7, 1);
+
+    background-color: rgb(0, 20, 248);
+    color: whitesmoke;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}
+
+
+.sidebar  {
+  .tabs {
+    @include clearfix();
+    margin: 0;
+    padding-left: 10px;
+
+    li {
+      margin-left: 10px;
+      padding: 3px 5px;
+      list-style: none;
+      border: solid 1px white;
+      border-radius: 5px;
+      float: left;
     }
 
-    select {
-      height: 20px;
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+    .attraction-tab {
+      background-color: rgb(249, 149, 60);
     }
 
-    .calc-submit-btn {
-      float: right;
-      font-size: 14px;
-      margin-top: -2px;
-      padding: 3px 12px;
-      margin-right: 10px;
-      border-radius: 4px;
-      border: solid 1px blue;
-      box-shadow: 0 0 4px rgba(0, 0, 1, 1);
+    .search-result-tab {
+      background-color: rgb(73, 204, 246);
+    }
+  }
+  //position: fixed;
+  //left: 0;
+  //top: 0;
+  //bottom: 0;
+  height: 40vh;
+  width: 100%;  //width: $sidebar-width;
+  color: white ;
+  background-color: rgba(60, 60, 80, 0.95) ;
+  overflow-y: scroll;
 
-      background-color: rgb(0, 61, 168);
-      color: whitesmoke;
+  .area-names {
+    margin-top: 10px;
+    text-align: left;
 
-      &:hover {
-        opacity: 0.8;
-        cursor: pointer;
+  }
+
+  .area-name {
+    border-radius: 12px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 1);
+    font-size: 14px;
+    padding: 4px 10px;
+    margin: 4px 6px;
+    opacity: 0.9;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.99;
+
+    }
+  }
+
+  .selected {
+    opacity: 0.99;
+  }
+}
+
+
+
+#calc-results {
+  #calc-results-start {
+    margin: 0 10px;
+    @include clearfix();
+    .attraction-name {
+      float: left;
+    }
+
+    .start-time {
+      float: left;
+    }
+  }
+
+  #calc-results-attractions {
+    margin: 0 10px;
+
+    .attraction {
+      @include clearfix();
+      .attraction-name {
+        float: left;
+      }
+
+      .arrive-time {
+        float: left;
       }
     }
   }
@@ -171,7 +333,7 @@ $attractions-right-list-width: 255px;
   background-color: darken($area-6-color, 5%);
 
   .selected {
-    background-color: lighten($area-6-color, 17%);
+    //background-color: lighten($area-6-color, 17%);
   }
 
   .decided {
@@ -188,7 +350,7 @@ $attractions-right-list-width: 255px;
   background-color: darken($area-5-color, 5%);
 
   .selected {
-    background-color: lighten($area-5-color, 10%);
+    //background-color: lighten($area-5-color, 10%);
   }
 
   .decided {
@@ -204,7 +366,7 @@ $attractions-right-list-width: 255px;
   background-color: darken($area-4-color, 5%);
 
   .selected {
-    background-color: lighten($area-4-color, 10%);
+    //background-color: lighten($area-4-color, 10%);
   }
 
   .decided {
@@ -212,25 +374,24 @@ $attractions-right-list-width: 255px;
   }
 }
 
-.left-list {
-  float: left;
-  width: $attractions-left-list-width;
-}
-
-.right-list {
-  float: right;
-  width: $attractions-right-list-width;
-}
+//.left-list {
+//  float: left;
+//  width: $attractions-left-list-width;
+//}
+//
+//.right-list {
+//  float: right;
+//  width: $attractions-right-list-width;
+//}
 
 .area-0-list {
   //position: absolute;
   //bottom: 0;
   //right: 0;
   background-color: darken($area-0-color, 10%);
-  margin-top: 40px;
 
   .selected {
-    background-color: lighten($area-0-color, 7%);
+    //background-color: lighten($area-0-color, 7%);
   }
 
   .decided {
@@ -244,10 +405,9 @@ $attractions-right-list-width: 255px;
   //bottom: 0;
   //right: 0;
   background-color: darken($area-1-color, 4%);
-  margin-top: 40px;
 
   .selected {
-    background-color: lighten($area-1-color, 8%);
+    // background-color: lighten($area-1-color, 8%);
   }
 
   .decided {
@@ -261,10 +421,9 @@ $attractions-right-list-width: 255px;
   //bottom: 0;
   //right: 0;
   background-color: darken($area-2-color, 5%);
-  margin-top: 40px;
 
   .selected {
-    background-color: lighten($area-2-color, 8%);
+    //background-color: lighten($area-2-color, 8%);
   }
 
   .decided {
@@ -278,7 +437,6 @@ $attractions-right-list-width: 255px;
   //bottom: 0;
   //right: 0;
   background-color: darken($area-3-color, 9%);
-  margin-top: 20px;
 
   .selected {
     background-color: lighten($area-3-color, 4%);
