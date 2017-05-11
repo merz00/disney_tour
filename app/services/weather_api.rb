@@ -3,7 +3,7 @@ require 'open-uri'
 
 class WeatherApi
   BASE_URL = 'http://api.openweathermap.org/data/2.5/forecast'
-  API_KEY = 'YOUR API KEY'
+  API_KEY = ENV['OPEN_WEATHER_API']
 
 
   def initialize(cityname)
@@ -11,7 +11,7 @@ class WeatherApi
   end
 
   def execute
-    response = open(BASE_URL + "?q=Akashi-shi,jp&APPID=#{API_KEY}")
-    JSON.pretty_generate(JSON.parse(response.read))
+    response = open(@url)
+    JSON.parse(response.read)
   end
 end
