@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import os
 import pandas as pd
 import sys
 from numpy.random import rand
@@ -13,14 +14,14 @@ def main(date, hour, weather):
     weather : int 0=晴れ 1=曇り 2=雨みたいな(適当)
 
     """
-    df = pd.read_csv('アトラクションID_ランド_v2.csv')
+    df = pd.read_csv(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'アトラクションID_ランド_v2.csv'))
     hour = int(hour)
     while hour <= 22:
         df[str(hour)+':00'] = map(int, rand(len(df)) * 60)
         hour += 1
     del df['site_id']
     del df['name']
-    df.to_csv('../cpp/input/pred_wait_time.csv', index=False)
+    df.to_csv(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../cpp/input/pred_wait_time.csv'), index=False)
 
 
 if __name__ == '__main__':
