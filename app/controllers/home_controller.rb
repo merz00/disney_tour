@@ -41,34 +41,34 @@ class HomeController < ApplicationController
       result = JSON.load(file)
     end
 
-    @start_info = StartInfo.new.tap do |info|
-      info.position_id     = 0
-      info.attraction_name = Attraction.find_by(algorithm_id: info.position_id).name
-      info.start_datetime  = DateTime.now.to_s(:time)
+    @candidates = result['candidates'].map do |candidate|
+      { startinfo: {
+          position_id:     candidate['start']['place'],
+          attraction_name: Attraction.find_by(algorithm_id: candidate['start']['place']).name,
+          start_datetime:  candidate['start']['time']
+        },
+        attractions_info: candidate['attraction'].map { |attraction|
+          {
+            algorithm_id:    attraction['ID'],
+            attraction_name: Attraction.find_by(algorithm_id: attraction['ID']).name,
+            move_time:       attraction['move'],
+            arrive_time:     attraction['arrive'],
+            wait_time:       attraction['wait'],
+            ride_time:       attraction['ride'],
+            duration_time:   attraction['duration_time'],
+            end_time:        attraction['end']
+          }
+        },
+        discription: candidate['discription']
+      }
     end
-
-    @attraction_infos = [1,2,3].map do |i|
-      AttractionInfo.new.tap do |info|
-        info.algorithm_id    = i
-        info.attraction_name = Attraction.find_by(algorithm_id: info.algorithm_id).name
-        info.move_time       = 10
-        info.arrive_time     = DateTime.now.to_s(:time)
-        info.wait_time       = 20
-        info.ride_time       = DateTime.now.to_s(:time)
-        info.need_time       = 15
-        info.end_time        = DateTime.now.to_s(:time)
-      end
-    end
-
-
   end
-
   class StartInfo
     attr_accessor :position_id, :attraction_name, :start_datetime
   end
 
   class AttractionInfo
-    attr_accessor :algorithm_id, :attraction_name, :move_time, :arrive_time, :wait_time, :ride_time, :need_time, :end_time
+    attr_accessor :algorithm_id, :attraction_name, :move_time, :arrive_time, :wait_time, :ride_time, :duration_time, :end_time
   end
 
   private
