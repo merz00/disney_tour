@@ -21,7 +21,7 @@ class HomeController < ApplicationController
     user_input =
         {
             user: {
-                list:  params[:attraction_ids].map { |k, v| { ID: k, ID: v} },
+                list:  params[:attraction_ids].map { |k, v| { ID: k.to_i, hope: v.to_i} },
                 start: params[:departed_time],
                 end:   params[:finished_time],
                 position: 1
@@ -33,13 +33,15 @@ class HomeController < ApplicationController
     end
 
     # Cコール
-    system("#{Rails.root.to_s}/lib/others/cpp/input/route_search.out")
+    logger.info('route_search.out')
+    system("#{Rails.root.to_s}/lib/others/cpp/route_search.out")
 
     # 結果読み込み
     result = {}
-    File.open("#{Rails.root.to_s}/lib/others/output/route_output.json") do |file|
+    File.open("#{Rails.root.to_s}/lib/others/cpp/output/route_output.json") do |file|
       result = JSON.load(file)
     end
+    logger.info(result)
 
     @candidates = result['candidates'].map do |candidate|
       { startinfo: {
