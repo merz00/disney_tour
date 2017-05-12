@@ -30,7 +30,7 @@ item_clicked = ($obj) ->
     $('#attraction-' + id + '-name').addClass('decided')
     $('#attraction-' + id + '-point').addClass('decided')
 
-    $('#attractions-form').append("<input type='hidden'" +
+    $('#attractions-form').append("<input type='hidden' class='attraction-select'" +
         "id='attraction-form-" + id + "' " +
         "name='attraction_ids[" + id + "]' " +
         "value=" + 1 + ">")
@@ -142,21 +142,23 @@ $ ->
 
   $('#attractions-form').submit (
     ->
-      $.ajax(
-        url: '/calc',
-        type: 'POST',
-        dataType: 'json',
-        data: $(@).serializeArray(),
-        timeout: 5000,
-        success:
-          (data) ->
-            $('.tab-content').css('display', 'none')
-            $('#search-result-tab').css('display', 'block')
-            append_start_info(data)
-            append_attraciotns_info(data)
-        error:
-          (data) ->
-      )
+      if $('#attractions-form .attraction-select').length > 0
+        $.ajax(
+          url: '/calc',
+          type: 'POST',
+          dataType: 'json',
+          data: $(@).serializeArray(),
+          timeout: 5000,
+          success:
+            (data) ->
+              console.log(data)
+              $('.tab-content').css('display', 'none')
+              $('#search-result-tab').css('display', 'block')
+              append_start_info(data)
+              append_attraciotns_info(data)
+          error:
+            (data) ->
+        )
       return false
   )
 
