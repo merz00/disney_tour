@@ -20,6 +20,7 @@
               = attraction.algorithm_id
 
 
+    .set-time-wrapper
       .set-time-box
         .set-time-label
           %label.label-title.control-label{for: 'departed_date'} 予定日
@@ -36,7 +37,9 @@
           %input.finished_hour{type: :time, name: 'finished_time'}
 
           %lable.set-default-time#closetime-label 閉園時にする
-        = submit_tag 'サーチ', id: 'search-submit-btn', class: 'calc-submit-btn'
+
+        .set-time-label
+          = submit_tag 'サーチ', id: 'search-submit-btn', class: 'calc-submit-btn'
 
 
 

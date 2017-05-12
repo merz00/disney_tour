@@ -44,15 +44,16 @@ h1 {
 .attraction-form {
   margin: 0 auto;
   @include clearfix();
-  width: 75%;
+  //width: 75%;
   min-width: 700px;
   overflow-x: scroll;
 
 }
 
 .main-container {
-  max-width: 600px;
-  max-height: 60vmin;
+  width: 1200px;
+  max-height: 1000px;
+  //max-height: 60vmin;
   overflow-y: scroll;
   float: left;
 
@@ -175,18 +176,21 @@ h1 {
 }
 
 
-
+.set-time-wrapper {
+  text-align: center;
+}
 
 .set-time-box {
-  float: left;
+  @include clearfix();
   color: #404040;
   display: inline-block;
-  width: 100px;
   padding-top: 8px;
   text-align: center;
 
   .set-time-label {
-    margin-top: 15px;
+    float: left;
+    margin-left: 30px;
+    margin-right: 30px;
   }
 
   label {

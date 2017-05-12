@@ -31,8 +31,8 @@ item_clicked = ($obj) ->
     $('#attraction-' + id + '-point').addClass('decided')
 
     $('#attractions-form').append("<input type='hidden'" +
-        "id='attraction-form-" + id + " " +
-        "name='attraction_ids[][" + id + "]' " +
+        "id='attraction-form-" + id + "' " +
+        "name='attraction_ids[" + id + "]' " +
         "value=" + 1 + ">")
 
 append_start_info = (data) ->
