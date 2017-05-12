@@ -27,18 +27,30 @@ $sidebar-width: 300px;
 }
 
 body {
-  background: rgb(208, 238, 238);
+  //background: rgb(208, 238, 238);
 }
 
-h1 {
-  margin: 0 auto;
-  width: 200px;
-
+.header-wrapper {
+  background-image: image_url('background3.jpg');
+  background-size: auto 300px;
+  background-repeat: no-repeat;
+  .header {
+    //background-color: #003da8;
+    //opacity: 0.4;
+    height: 300px;
+    h1 {
+      font-size: 40px;
+      color: white;
+      opacity: 1.0;
+      padding: 80px 400px;
+    }
+  }
 }
 
 .container {
   position: relative;
   height: 100vh;
+
 }
 
 .attraction-form {
@@ -66,7 +78,8 @@ h1 {
 }
 
 .attractions-wrapper {
-  @include clearfix();  }
+  @include clearfix();
+}
 
 .attractions-map {
 
@@ -181,6 +194,9 @@ h1 {
 }
 
 .set-time-box {
+  margin-top: 20px;
+  border-radius: 16px;
+  background-color: #A1EEDB;
   @include clearfix();
   color: #404040;
   display: inline-block;
@@ -264,11 +280,7 @@ h1 {
       background-color: rgb(73, 204, 246);
     }
   }
-  //position: fixed;
-  //left: 0;
-  //top: 0;
-  //bottom: 0;
-  width: 100%;  //width: $sidebar-width;
+
   color: white ;
   background-color: rgba(60, 60, 80, 0.95) ;
   overflow-y: scroll;
@@ -299,18 +311,43 @@ h1 {
   }
 }
 
-
+.clearfix {
+  @include clearfix();
+}
 
 #calc-results {
   #calc-results-start {
     margin: 0 10px;
     @include clearfix();
+
+    .attraction-point {
+      float: left;
+      border: solid 2px white;
+
+      border-radius: 50%;
+      text-align: center;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 1),0 0 6px rgba(0, 0, 0, 1);
+      cursor: pointer;
+
+      color: white;
+
+      vertical-align: middle;
+      height: 60px;
+      width:  60px;
+      line-height: 60px;
+      font-size: 40px;
+      margin: 10px 0;
+    }
+
     .attraction-name {
+      margin: 10px 12px 0;
+      font-size: 26px;
+      color: white;
       float: left;
     }
 
     .start-time {
-      float: left;
+
     }
   }
 
