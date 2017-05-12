@@ -33,11 +33,11 @@ class HomeController < ApplicationController
     end
 
     # Cコール
-    system("#{Rails.root.to_s}/lib/others/cpp/input/route_algorithm_kari.out", user_input_json_path)
+    system("#{Rails.root.to_s}/lib/others/cpp/input/route_search.out")
 
     # 結果読み込み
     result = {}
-    File.open("#{Rails.root.to_s}/lib/others/cpp/sample.json") do |file|
+    File.open("#{Rails.root.to_s}/lib/others/output/route_output.json") do |file|
       result = JSON.load(file)
     end
 

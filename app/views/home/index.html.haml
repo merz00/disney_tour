@@ -5,7 +5,9 @@
 
 
 .container
-  %h1 DisneyTour
+  .header-wrapper
+    .header
+      %h1 DisneyTour
 
   %form#attractions-form
     .attraction-form
@@ -49,7 +51,7 @@
       %li.search-result-tab{'data-tab-content': '#search-result-tab'} 検索結果
 
     #tab-contents
-      #attraction-tab.tab-content.area-names
+      #attraction-tab.tab-content.area-names{style: 'display: none'}
         - @areas.each do |area|
           .acMenu
             %dt.area-name{ id: "area-#{area.id}-name",
@@ -63,9 +65,16 @@
                   = attraction.algorithm_id
                   = attraction.name
 
-      #search-result-tab.tab-content{style: 'display: none'}
+      #search-result-tab.tab-content
         #calc-results
           #calc-results-start
+            .clearfix
+              .attraction-point.area-0
+                1
+              .attraction-name
+                ほげほげ
+            .start-time
+              12:10
           #calc-results-attractions
 
 
