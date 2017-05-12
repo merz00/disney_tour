@@ -12,13 +12,65 @@ class HomeController < ApplicationController
 
 
 
-    # execute python
+    # pythonコール
     if date_params.sub!(%r{(\d{4})/(\d{2})/(\d{2})}, '\1\2\3') &&
         departed_time_params.sub!(%r{(\d{2}):\d{2}}, '\1')
       system('python', "#{Rails.root.to_s}/lib/others/python/predict_wait_time.py", '20170401', '8', '1')
       logger.info("execute python predict_wait_time.py #{date_params} #{departed_time_params.next} #{weather_state.to_s}")
     end
 
+
+    # input_json
+    user_input_json_path = "#{Rails.root.to_s}/lib/others/cpp/input/user_input.json"
+
+    user_input =
+        {
+            user: {
+                list: [
+                    {
+                        ID: 12,
+                        hope: 0
+                    },
+                    {
+                        ID: 12,
+                        hope: 1
+                    }
+                ],
+                start: '08:15',
+                end: '18:32',
+                position: 12
+            }
+        }
+
+    open(user_input_json_path, 'w') do |f|
+      JSON.dump(user_input, f)
+    end
+
+    binding.pry
+
+
+    # Cコール
+
+    # {
+    #     "user": {
+    #         "list": [
+    #             {
+    #                 "ID": 12,
+    #                 "hope": 0
+    #             },
+    #             {
+    #                 "ID": 12,
+    #                 "hoge": 1
+    #             }
+    #         ],
+    #         "start": "08:15",
+    #         "end": "18:32",
+    #         "position": 12
+    #     }
+    # }
+
+
+    # 結果読み込み
     hash = {}
     File.open("#{Rails.root.to_s}/lib/others/cpp/sample.json") do |file|
       hash = JSON.load(file)
@@ -47,7 +99,7 @@ class HomeController < ApplicationController
       end
     end
 
-    # Cをコール
+
   end
 
   class StartInfo
@@ -70,6 +122,7 @@ class HomeController < ApplicationController
 
   def weather_state
     weather_result = WeatherApi.new('Akashi-shi').execute
+    logger.info(weather_result['list'].first['weather'].first)
     case weather_result['list'].first['weather'].first['main']
       when 'Clear'
         '1'
