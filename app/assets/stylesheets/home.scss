@@ -90,21 +90,21 @@ h1 {
   }
 
   @media screen and (min-width: 600px) {
-    /* 表示領域が800px以上の場合に適用するスタイル */
+    /* 表示領域が600px以上の場合に適用するスタイル */
     .attraction-point {
-      height: 30px;
-      width:  30px;
-      line-height: 30px;
-      font-size: 20px;
+      height: 50px;
+      width:  50px;
+      line-height: 50px;
+      font-size: 30px;
     }
   }
   @media screen and (max-width: 600px) {
-    /* 表示領域が800px以下の場合に適用するスタイル */
+    /* 表示領域が600px以下の場合に適用するスタイル */
     .attraction-point {
       height: 3.2vw;
       width:  3.2vw;
       line-height: 3.2vw;
-      font-size: 2vw;
+      font-size: 2.3vw;
     }
   }
 
@@ -160,7 +160,7 @@ h1 {
     border-radius: 8px;
     cursor: pointer;
 
-    font-size: 14px;
+    font-size: 20px;
     line-height: 1.55em;
     letter-spacing: 0.001em;
     opacity: 0.8;
@@ -197,11 +197,11 @@ h1 {
     text-align: center;
   }
   .label-title {
-    font-size: 18px;
+    font-size: 28px;
   }
 
   .set-default-time {
-    font-size: 14px;
+    font-size: 24px;
   }
 
   input {
@@ -213,16 +213,17 @@ h1 {
     border-radius: 4px;
 
     padding-top: 4px;
+    font-size: 20px;
   }
 
   input[type=text] {
-    height: 14px;
-    width: 80px;
+    height: 28px;
+    width: 120px;
     text-align: center;
   }
 
   input[type=submit] {
-    font-size: 14px;
+    font-size: 24px;
     margin-top: 30px;
     padding: 3px 12px;
     border-radius: 4px;
@@ -282,7 +283,7 @@ h1 {
   .area-name {
     border-radius: 12px;
     box-shadow: 0 0 4px rgba(0, 0, 0, 1);
-    font-size: 14px;
+    font-size: 22px;
     padding: 4px 10px;
     margin: 4px 6px;
     opacity: 0.9;
