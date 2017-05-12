@@ -27,13 +27,15 @@ $sidebar-width: 300px;
 }
 
 body {
-  //background: rgb(208, 238, 238);
+  background: #D8FDD4;
 }
 
 .header-wrapper {
   background-image: image_url('background3.jpg');
   background-size: auto 300px;
   background-repeat: no-repeat;
+
+  margin-bottom: 20px;
   .header {
     //background-color: #003da8;
     //opacity: 0.4;
@@ -196,7 +198,7 @@ body {
 .set-time-box {
   margin-top: 20px;
   border-radius: 16px;
-  background-color: #A1EEDB;
+  background-color: #A6F5A6;
   @include clearfix();
   color: #404040;
   display: inline-block;
@@ -243,11 +245,11 @@ body {
     margin-top: 30px;
     padding: 3px 12px;
     border-radius: 4px;
-    border: solid 1px blue;
-    box-shadow: 0 0 4px rgba(0, 0, 0.7, 1);
+    border: solid 1px green;
+    box-shadow: 0 0 4px green;
 
-    background-color: rgb(0, 20, 248);
-    color: whitesmoke;
+    background-color: #66DD59;
+    color: white;
 
     &:hover {
       opacity: 0.8;
@@ -262,8 +264,10 @@ body {
     @include clearfix();
     margin: 0;
     padding-left: 10px;
+    color: white;
 
     li {
+      font-size: 30px;
       margin-left: 10px;
       padding: 3px 5px;
       list-style: none;
@@ -282,7 +286,7 @@ body {
   }
 
   color: white ;
-  background-color: rgba(60, 60, 80, 0.95) ;
+  background-color: #88EC7D;
   overflow-y: scroll;
 
   .area-names {
@@ -319,6 +323,7 @@ body {
   #calc-results-start {
     margin: 0 10px;
     @include clearfix();
+    color: black;
 
     .attraction-point {
       float: left;
@@ -342,7 +347,6 @@ body {
     .attraction-name {
       margin: 10px 12px 0;
       font-size: 26px;
-      color: white;
       float: left;
     }
 
