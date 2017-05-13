@@ -237,7 +237,7 @@ void predict_data_input()
 //データの読み込み(データ班から)
 {
     //待ち時間の読み込み
-    string str = current_directory + "/input/wait_time_sample.csv";
+    string str = current_directory + "/input/wait_time_test.csv";
 	ifstream wait(str);
     if(!wait){
         cout << "入力エラー";
@@ -1206,12 +1206,6 @@ int main()
         cout << "\n";
     }
     */
-    for(auto it = most_atr.begin(); it != most_atr.end(); it++){
-        cout << *it << "\n";
-    }
-    for(auto it = med_atr.begin(); it != med_atr.end(); it++){
-        cout << *it << "\n";
-    }
     solve_large();
     small_check = true;
     /*
