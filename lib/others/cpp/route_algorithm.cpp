@@ -890,13 +890,14 @@ void solve_small()
 picojson::value route_to_object_large(vector<P> route)
 //largeの場合のルートをjson形式(picojson::value)に変換
 {
-    string t[8];
+    string t[9];
 	t[0] = "flag",t[1] = "ID",t[2] = "move",t[3] = "arrive",t[4] = "wait";
-	t[5] = "ride",t[6] = "duration",t[7] = "end";
+	t[5] = "ride",t[6] = "duration",t[7] = "end",t[8] = "start";
 	picojson::array ary;
 	int temp = sttime;
 	int free = 0;
 	set<int> fpset;
+    string buff = string_time(sttime);
 	for(int i = 1; i < route.size(); i++){
         picojson::object obj;
         //アトラクションに乗る行動
@@ -914,6 +915,8 @@ picojson::value route_to_object_large(vector<P> route)
                 obj.insert(make_pair(t[6], picojson::value(atime[route[i].first] * (double)step_minute)));
                 temp += atime[route[i].first];
                 obj.insert(make_pair(t[7], picojson::value(string_time(temp))));
+                obj.insert(make_pair(t[8], picojson::value(buff)));
+                buff = string_time(temp);
             //ファストパスを使って乗った
             }else{
                 fpset.erase(route[i].first);
@@ -923,6 +926,8 @@ picojson::value route_to_object_large(vector<P> route)
                 obj.insert(make_pair(t[6], picojson::value(atime[route[i].first] * (double)step_minute)));
                 temp += atime[route[i].first];
                 obj.insert(make_pair(t[7], picojson::value(string_time(temp))));
+                obj.insert(make_pair(t[8], picojson::value(buff)));
+                buff = string_time(temp);
             }
         //ファストパスを取る行動
         }else if(route[i].second == 1){
@@ -935,6 +940,8 @@ picojson::value route_to_object_large(vector<P> route)
                 obj.insert(make_pair(t[5], picojson::value(string_time(temp))));
                 obj.insert(make_pair(t[6], picojson::value(0.0)));
                 obj.insert(make_pair(t[7], picojson::value(string_time(temp))));
+                obj.insert(make_pair(t[8], picojson::value(buff)));
+                buff = string_time(temp);
                 fpset.insert(route[i].first);
                 free = min(temp+fp_itv,fptime_start[route[i].first][temp]);
         //ファストパス解禁まで待って取る行動
@@ -948,6 +955,8 @@ picojson::value route_to_object_large(vector<P> route)
 			obj.insert(make_pair(t[5], picojson::value(string_time(temp))));
 			obj.insert(make_pair(t[6], picojson::value(0.0)));
 			obj.insert(make_pair(t[7], picojson::value(string_time(temp))));
+            obj.insert(make_pair(t[8], picojson::value(buff)));
+            buff = string_time(temp);
 			fpset.insert(route[i].first);
 			free = min(temp + fp_itv, fptime_start[route[i].first][temp]);
 	    }
@@ -959,14 +968,15 @@ picojson::value route_to_object_large(vector<P> route)
 picojson::value route_to_object_small(vector<P> route)
 //smallの場合のルートをjson形式(picojson::value)に変換
 {
-    string t[8];
+    string t[9];
 	t[0] = "flag",t[1] = "ID",t[2] = "move",t[3] = "arrive",t[4] = "wait";
-	t[5] = "ride",t[6] = "duration",t[7] = "end";
+	t[5] = "ride",t[6] = "duration",t[7] = "end",t[8] = "start";
 	picojson::array ary;
 	int temp = sttime;
 	int free = 0;
 	set<int> fpset;
     map<int,int> fp_get_time;
+    string buff = string_time(sttime);
     for(int i = 1; i < route.size(); i++){
         picojson::object obj;
         //アトラクションに乗る行動
@@ -984,6 +994,8 @@ picojson::value route_to_object_small(vector<P> route)
                 obj.insert(make_pair(t[6], picojson::value(atime[route[i].first] * (double)step_minute)));
                 temp += atime[route[i].first];
                 obj.insert(make_pair(t[7], picojson::value(string_time(temp))));
+                obj.insert(make_pair(t[8], picojson::value(buff)));
+                buff = string_time(temp);
             //ファストパスを使って乗った
             }else{
                 //到着した時にはまだファストパスの乗車開始時間に達していないとき
@@ -998,6 +1010,8 @@ picojson::value route_to_object_small(vector<P> route)
                 obj.insert(make_pair(t[6], picojson::value(atime[route[i].first] * (double)step_minute)));
                 temp += atime[route[i].first];
                 obj.insert(make_pair(t[7], picojson::value(string_time(temp))));
+                obj.insert(make_pair(t[8], picojson::value(buff)));
+                buff = string_time(temp);
             }
         //ファストパスを取る行動
         }else{
@@ -1015,6 +1029,8 @@ picojson::value route_to_object_small(vector<P> route)
             obj.insert(make_pair(t[5], picojson::value("0")));
             obj.insert(make_pair(t[6], picojson::value(0.0)));
             obj.insert(make_pair(t[7], picojson::value(string_time(temp))));
+            obj.insert(make_pair(t[8], picojson::value(buff)));
+            buff = string_time(temp);
             fpset.insert(route[i].first);
             fp_get_time[route[i].first] = temp;
             free = min(temp + fp_itv, fptime_start[route[i].first][temp]);
