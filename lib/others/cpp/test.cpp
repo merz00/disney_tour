@@ -10,7 +10,8 @@
 #include <set>
 #include <map>
 #include <stdlib.h>
-#include <unistd.h>
+#include <mach-o/dyld.h>
+#include <libgen.h>
 #include "picojson.h"
 
 using namespace std;
@@ -18,8 +19,13 @@ using namespace std::chrono;
 
 int main()
 {
-    static char buf[1024] = {};
-    readlink("/proc/self/exe",buf,sizeof(buf)-1);
-    string current_directory = string(buf);
-    cout << current_directory << "\n";
+    uint32_t bufsize = 1024;
+    static char exepath[1024] = {};
+    int result = _NSGetExecutablePath(exepath, &bufsize);
+    if(result == 0){
+        string current_directory = string(exepath);
+        cout << current_directory << "\n";
+    }else{
+        cout << "ERROR\n";
+    }
 }
