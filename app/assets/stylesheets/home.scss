@@ -31,7 +31,7 @@ body {
 }
 
 .header-wrapper {
-  background-image: image_url('background3.jpg');
+  background-image: image_url('background4.jpg');
   background-size: auto 300px;
   background-repeat: no-repeat;
 
@@ -285,9 +285,10 @@ body {
     }
   }
 
-  color: white ;
+  color: white;
   background-color: #88EC7D;
   overflow-y: scroll;
+  margin-top: 20px;
 
   .area-names {
     margin-top: 10px;
