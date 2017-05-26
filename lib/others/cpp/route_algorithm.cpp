@@ -13,7 +13,6 @@
 #include <set>
 #include <map>
 #include <stdlib.h>
-#include <unistd.h>
 #include "picojson.h"
 
 #define INF 1000000005
@@ -125,22 +124,6 @@ int string_to_step(string& time, int id)
     }
 }
 
-void predirec_path()
-{
-    static char buf[1024] = {};
-    readlink("/proc/self/exe",buf,sizeof(buf)-1);
-    current_directory = string(buf);
-    int at_i;
-    for(int i = current_directory.size() - 1;i >= 0;i--){
-        if(current_directory[i] == '/'){
-                at_i = i;
-                break;
-        }
-    }
-    current_directory.erase(current_directory.begin() + at_i , current_directory.end());
-    return;
-}
-
 void fp_time_read(int atr_id, string& file)
 //ファストパス時間の読み込み
 {
@@ -173,7 +156,7 @@ void fp_time_read(int atr_id, string& file)
 void user_data_input()
 //データの読み込み(ユーザーから)
 {
-    string str = current_directory + "/input/user_input.json";
+    string str = current_directory + "input/user_input.json";
 	ifstream ifs(str, ios::binary);
     if(!ifs){
         cout << "入力エラー";
@@ -198,7 +181,7 @@ void user_data_input()
 void known_data_input()
 //データの読み込み(既知のデータから標準入力)
 {
-    string str = current_directory + "/input/known_data_sample.csv";
+    string str = current_directory + "input/known_data_sample.csv";
     ifstream ifs(str, ios::binary);
     if(!ifs){
         cout << "入力エラー";
@@ -240,7 +223,7 @@ void predict_data_input()
 //データの読み込み(データ班から)
 {
     //待ち時間の読み込み
-    string str = current_directory + "/input/wait_time_test.csv";
+    string str = current_directory + "input/wait_time_test.csv";
 	ifstream wait(str);
     if(!wait){
         cout << "入力エラー";
@@ -289,21 +272,21 @@ void predict_data_input()
     }
 
     //ファストパス時間の読み込み
-    str = "/input/110_fastpass_sample.csv";
+    str = "input/110_fastpass_sample.csv";
     fp_time_read(7, str);
-    str = "/input/112_fastpass_sample.csv";
+    str = "input/112_fastpass_sample.csv";
     fp_time_read(9, str);
-    str = "/input/120_fastpass_sample.csv";
+    str = "input/120_fastpass_sample.csv";
     fp_time_read(17, str);
-    str = "/input/123_fastpass_sample.csv";
+    str = "input/123_fastpass_sample.csv";
     fp_time_read(20, str);
-    str = "/input/132_fastpass_sample.csv";
+    str = "input/132_fastpass_sample.csv";
     fp_time_read(27, str);
-    str = "/input/133_fastpass_sample.csv";
+    str = "input/133_fastpass_sample.csv";
     fp_time_read(28, str);
-    str = "/input/134_fastpass_sample.csv";
+    str = "input/134_fastpass_sample.csv";
     fp_time_read(29, str);
-    str = "/input/163_fastpass_sample.csv";
+    str = "input/163_fastpass_sample.csv";
     fp_time_read(32, str);
 }
 
@@ -1102,7 +1085,7 @@ void data_output()
     }
     //cand_aryには候補の数だけ要素がある
     obj_res.insert(make_pair("candidates",picojson::value(cand_ary)));  //候補１つ分全部のary
-    current_directory += "/output/route_output.json";
+    current_directory += "output/route_output.json";
     ofstream ofs(current_directory,ios::out);
 	ofs << picojson::value(obj_res).serialize(true) << endl; // trueだと整形あり
 	//printf("'開始'1:場所(ID)　2,3:時刻(?時?分)\n");
@@ -1111,12 +1094,15 @@ void data_output()
 	//printf("'アトラクション'1.ID　2:移動時間(分)　3,4:到着時刻(?時?分)　5:待ち時間(分)　6,7:乗車時刻(?時?分)　8:所要時間(分)　9:終了時刻(?時?分)\n");
 }
 
-int main()
+int main(int argc,char **argv)
 {
     //スタート時間の測定
     measure_start = system_clock::now();
 
-    predirec_path();
+    for(int i = 1; i < argc; i++){
+        current_directory = argv[i];
+        break;
+    }
 
     user_data_input();
 
