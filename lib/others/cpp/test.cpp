@@ -20,6 +20,6 @@ int main()
 {
     static char buf[1024] = {};
     readlink("/proc/self/exe",buf,sizeof(buf)-1);
-    current_directory = string(buf)
+    string current_directory = string(buf);
     cout << current_directory << "\n";
 }
