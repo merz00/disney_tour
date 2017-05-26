@@ -3,569 +3,82 @@
     {
       "attraction": [
         {
-          "ID": 9,
-          "arrive": "08:40",
-          "duration": 0,
-          "end": "08:40",
-          "flag": 1,
-          "move": 10,
-          "ride": "08:40",
-          "wait": 0
-        },
-        {
           "ID": 7,
-          "arrive": "08:45",
-          "duration": 10,
-          "end": "11:05",
-          "flag": 0,
-          "move": 5,
-          "ride": "10:55",
-          "wait": 130
-        },
-        {
-          "ID": 28,
-          "arrive": "11:15",
+          "arrive": "08:20",
           "duration": 0,
-          "end": "11:15",
+          "end": "08:20",
           "flag": 1,
-          "move": 10,
-          "ride": "11:15",
-          "wait": 0
-        },
-        {
-          "ID": 20,
-          "arrive": "11:20",
-          "duration": 15,
-          "end": "11:35",
-          "flag": 0,
           "move": 5,
-          "ride": "11:20",
-          "wait": 0
-        },
-        {
-          "ID": 24,
-          "arrive": "11:40",
-          "duration": 5,
-          "end": "11:45",
-          "flag": 0,
-          "move": 5,
-          "ride": "11:40",
+          "ride": "0",
           "wait": 0
         },
         {
           "ID": 9,
-          "arrive": "11:55",
+          "arrive": "08:25",
           "duration": 5,
-          "end": "12:10",
-          "flag": 0,
-          "move": 10,
-          "ride": "12:05",
-          "wait": 10
-        },
-        {
-          "ID": 3,
-          "arrive": "12:15",
-          "duration": 15,
-          "end": "12:35",
+          "end": "09:35",
           "flag": 0,
           "move": 5,
-          "ride": "12:20",
-          "wait": 5
+          "ride": "09:30",
+          "wait": 65
         },
         {
-          "ID": 5,
-          "arrive": "12:40",
-          "duration": 15,
-          "end": "13:00",
-          "flag": 0,
-          "move": 5,
-          "ride": "12:45",
-          "wait": 5
-        },
-        {
-          "ID": 25,
-          "arrive": "13:10",
-          "duration": 15,
-          "end": "13:25",
-          "flag": 0,
-          "move": 10,
-          "ride": "13:10",
-          "wait": 0
-        },
-        {
-          "ID": 18,
-          "arrive": "13:30",
+          "ID": 15,
+          "arrive": "09:40",
           "duration": 5,
-          "end": "13:35",
+          "end": "10:25",
           "flag": 0,
           "move": 5,
-          "ride": "13:30",
-          "wait": 0
-        },
-        {
-          "ID": 4,
-          "arrive": "13:40",
-          "duration": 5,
-          "end": "13:55",
-          "flag": 0,
-          "move": 5,
-          "ride": "13:50",
-          "wait": 10
-        },
-        {
-          "ID": 13,
-          "arrive": "14:00",
-          "duration": 5,
-          "end": "14:30",
-          "flag": 0,
-          "move": 5,
-          "ride": "14:25",
-          "wait": 25
-        },
-        {
-          "ID": 28,
-          "arrive": "14:40",
-          "duration": 15,
-          "end": "15:05",
-          "flag": 0,
-          "move": 10,
-          "ride": "14:50",
-          "wait": 10
-        },
-        {
-          "ID": 1,
-          "arrive": "15:10",
-          "duration": 10,
-          "end": "16:00",
-          "flag": 0,
-          "move": 5,
-          "ride": "15:50",
+          "ride": "10:20",
           "wait": 40
         },
         {
-          "ID": 14,
-          "arrive": "16:05",
-          "duration": 15,
-          "end": "16:55",
+          "ID": 21,
+          "arrive": "10:30",
+          "duration": 5,
+          "end": "11:20",
           "flag": 0,
           "move": 5,
-          "ride": "16:40",
-          "wait": 35
+          "ride": "11:15",
+          "wait": 45
         },
         {
-          "ID": 33,
-          "arrive": "17:00",
+          "ID": 12,
+          "arrive": "11:25",
           "duration": 5,
-          "end": "17:05",
+          "end": "12:15",
           "flag": 0,
           "move": 5,
-          "ride": "17:00",
-          "wait": 0
+          "ride": "12:10",
+          "wait": 45
+        },
+        {
+          "ID": 7,
+          "arrive": "12:20",
+          "duration": 10,
+          "end": "12:40",
+          "flag": 0,
+          "move": 5,
+          "ride": "12:30",
+          "wait": 10
         },
         {
           "ID": 16,
-          "arrive": "17:10",
+          "arrive": "12:45",
           "duration": 10,
-          "end": "17:35",
+          "end": "13:25",
           "flag": 0,
           "move": 5,
-          "ride": "17:25",
-          "wait": 15
-        },
-        {
-          "ID": 12,
-          "arrive": "17:40",
-          "duration": 5,
-          "end": "18:20",
-          "flag": 0,
-          "move": 5,
-          "ride": "18:15",
-          "wait": 35
-        },
-        {
-          "ID": 21,
-          "arrive": "18:25",
-          "duration": 5,
-          "end": "19:05",
-          "flag": 0,
-          "move": 5,
-          "ride": "19:00",
-          "wait": 35
-        },
-        {
-          "ID": 34,
-          "arrive": "19:10",
-          "duration": 5,
-          "end": "19:20",
-          "flag": 0,
-          "move": 5,
-          "ride": "19:15",
-          "wait": 5
-        },
-        {
-          "ID": 11,
-          "arrive": "19:25",
-          "duration": 10,
-          "end": "20:25",
-          "flag": 0,
-          "move": 5,
-          "ride": "20:15",
-          "wait": 50
-        },
-        {
-          "ID": 35,
-          "arrive": "20:30",
-          "duration": 10,
-          "end": "20:55",
-          "flag": 0,
-          "move": 5,
-          "ride": "20:45",
-          "wait": 15
-        },
-        {
-          "ID": 15,
-          "arrive": "21:00",
-          "duration": 5,
-          "end": "21:20",
-          "flag": 0,
-          "move": 5,
-          "ride": "21:15",
-          "wait": 15
-        }
-      ],
-      "discription": 1,
-      "start": {
-        "place": 0,
-        "time": "08:30"
-      }
-    },
-    {
-      "attraction": [
-        {
-          "ID": 9,
-          "arrive": "08:40",
-          "duration": 0,
-          "end": "08:40",
-          "flag": 1,
-          "move": 10,
-          "ride": "0",
-          "wait": 0
-        },
-        {
-          "ID": 7,
-          "arrive": "08:45",
-          "duration": 10,
-          "end": "11:05",
-          "flag": 0,
-          "move": 5,
-          "ride": "10:55",
-          "wait": 130
-        },
-        {
-          "ID": 28,
-          "arrive": "11:15",
-          "duration": 0,
-          "end": "11:15",
-          "flag": 1,
-          "move": 10,
-          "ride": "0",
-          "wait": 0
-        },
-        {
-          "ID": 20,
-          "arrive": "11:20",
-          "duration": 15,
-          "end": "11:35",
-          "flag": 0,
-          "move": 5,
-          "ride": "11:20",
-          "wait": 0
-        },
-        {
-          "ID": 24,
-          "arrive": "11:40",
-          "duration": 5,
-          "end": "11:45",
-          "flag": 0,
-          "move": 5,
-          "ride": "11:40",
-          "wait": 0
-        },
-        {
-          "ID": 9,
-          "arrive": "12:05",
-          "duration": 5,
-          "end": "12:20",
-          "flag": 0,
-          "move": 10,
-          "ride": "12:15",
-          "wait": 10
-        },
-        {
-          "ID": 32,
-          "arrive": "12:30",
-          "duration": 15,
-          "end": "15:10",
-          "flag": 0,
-          "move": 10,
-          "ride": "14:55",
-          "wait": 145
-        },
-        {
-          "ID": 28,
-          "arrive": "15:15",
-          "duration": 15,
-          "end": "15:40",
-          "flag": 0,
-          "move": 5,
-          "ride": "15:25",
-          "wait": 10
-        },
-        {
-          "ID": 25,
-          "arrive": "15:45",
-          "duration": 15,
-          "end": "16:00",
-          "flag": 0,
-          "move": 5,
-          "ride": "15:45",
-          "wait": 0
-        },
-        {
-          "ID": 11,
-          "arrive": "16:05",
-          "duration": 10,
-          "end": "17:30",
-          "flag": 0,
-          "move": 5,
-          "ride": "17:20",
-          "wait": 75
-        },
-        {
-          "ID": 3,
-          "arrive": "17:35",
-          "duration": 15,
-          "end": "17:55",
-          "flag": 0,
-          "move": 5,
-          "ride": "17:40",
-          "wait": 5
-        },
-        {
-          "ID": 5,
-          "arrive": "18:00",
-          "duration": 15,
-          "end": "18:20",
-          "flag": 0,
-          "move": 5,
-          "ride": "18:05",
-          "wait": 5
-        },
-        {
-          "ID": 4,
-          "arrive": "18:25",
-          "duration": 5,
-          "end": "18:45",
-          "flag": 0,
-          "move": 5,
-          "ride": "18:40",
-          "wait": 15
-        },
-        {
-          "ID": 13,
-          "arrive": "18:50",
-          "duration": 5,
-          "end": "19:15",
-          "flag": 0,
-          "move": 5,
-          "ride": "19:10",
-          "wait": 20
-        },
-        {
-          "ID": 1,
-          "arrive": "19:20",
-          "duration": 10,
-          "end": "19:45",
-          "flag": 0,
-          "move": 5,
-          "ride": "19:35",
-          "wait": 15
-        },
-        {
-          "ID": 14,
-          "arrive": "19:50",
-          "duration": 15,
-          "end": "20:25",
-          "flag": 0,
-          "move": 5,
-          "ride": "20:10",
-          "wait": 20
-        },
-        {
-          "ID": 12,
-          "arrive": "20:30",
-          "duration": 5,
-          "end": "20:55",
-          "flag": 0,
-          "move": 5,
-          "ride": "20:50",
-          "wait": 20
-        },
-        {
-          "ID": 21,
-          "arrive": "21:00",
-          "duration": 5,
-          "end": "21:20",
-          "flag": 0,
-          "move": 5,
-          "ride": "21:15",
-          "wait": 15
-        }
-      ],
-      "discription": 2,
-      "start": {
-        "place": 0,
-        "time": "08:30"
-      }
-    },
-    {
-      "attraction": [
-        {
-          "ID": 9,
-          "arrive": "08:40",
-          "duration": 0,
-          "end": "08:40",
-          "flag": 1,
-          "move": 10,
-          "ride": "08:40",
-          "wait": 0
-        },
-        {
-          "ID": 5,
-          "arrive": "08:45",
-          "duration": 15,
-          "end": "09:00",
-          "flag": 0,
-          "move": 5,
-          "ride": "08:45",
-          "wait": 0
-        },
-        {
-          "ID": 20,
-          "arrive": "09:05",
-          "duration": 15,
-          "end": "09:20",
-          "flag": 0,
-          "move": 5,
-          "ride": "09:05",
-          "wait": 0
-        },
-        {
-          "ID": 24,
-          "arrive": "09:25",
-          "duration": 5,
-          "end": "09:30",
-          "flag": 0,
-          "move": 5,
-          "ride": "09:25",
-          "wait": 0
-        },
-        {
-          "ID": 18,
-          "arrive": "09:35",
-          "duration": 5,
-          "end": "09:40",
-          "flag": 0,
-          "move": 5,
-          "ride": "09:35",
-          "wait": 0
-        },
-        {
-          "ID": 7,
-          "arrive": "09:45",
-          "duration": 10,
-          "end": "12:35",
-          "flag": 0,
-          "move": 5,
-          "ride": "12:25",
-          "wait": 160
-        },
-        {
-          "ID": 9,
-          "arrive": "12:40",
-          "duration": 5,
-          "end": "12:55",
-          "flag": 0,
-          "move": 5,
-          "ride": "12:50",
-          "wait": 10
-        },
-        {
-          "ID": 33,
-          "arrive": "13:00",
-          "duration": 5,
-          "end": "13:05",
-          "flag": 0,
-          "move": 5,
-          "ride": "13:00",
-          "wait": 0
-        },
-        {
-          "ID": 28,
-          "arrive": "13:10",
-          "duration": 15,
-          "end": "15:45",
-          "flag": 0,
-          "move": 5,
-          "ride": "15:30",
-          "wait": 140
-        },
-        {
-          "ID": 32,
-          "arrive": "15:50",
-          "duration": 15,
-          "end": "18:40",
-          "flag": 0,
-          "move": 5,
-          "ride": "18:25",
-          "wait": 155
-        },
-        {
-          "ID": 11,
-          "arrive": "18:45",
-          "duration": 10,
-          "end": "19:45",
-          "flag": 0,
-          "move": 5,
-          "ride": "19:35",
-          "wait": 50
-        },
-        {
-          "ID": 15,
-          "arrive": "19:50",
-          "duration": 5,
-          "end": "20:25",
-          "flag": 0,
-          "move": 5,
-          "ride": "20:20",
+          "ride": "13:15",
           "wait": 30
-        },
-        {
-          "ID": 21,
-          "arrive": "20:30",
-          "duration": 5,
-          "end": "21:00",
-          "flag": 0,
-          "move": 5,
-          "ride": "20:55",
-          "wait": 25
         }
       ],
-      "discription": 3,
+      "discription": 0,
       "start": {
-        "place": 0,
-        "time": "08:30"
+        "place": 12,
+        "time": "08:15"
       }
     }
   ]
 }
+

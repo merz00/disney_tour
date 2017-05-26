@@ -13,7 +13,7 @@
 #include <set>
 #include <map>
 #include <stdlib.h>
-#include <limits.h>
+#include <unistd.h>
 #include "picojson.h"
 
 #define INF 1000000005
@@ -110,6 +110,7 @@ int step_time_end(P time)
 	return (time.first - park_open_time) * step_in_hour + time.second / step_minute;
 }
 
+
 int string_to_step(string& time, int id)
 //idが0ならstep_time_start,idが1ならstep_time_end
 {
@@ -126,7 +127,9 @@ int string_to_step(string& time, int id)
 
 void predirec_path()
 {
-    current_directory = (string)realpath("picojson.h",NULL);
+    static char buf[1024] = {};
+    readlink("/proc/self/exe",buf,sizeof(buf)-1);
+    current_directory = string(buf);
     int at_i;
     for(int i = current_directory.size() - 1;i >= 0;i--){
         if(current_directory[i] == '/'){
@@ -237,7 +240,7 @@ void predict_data_input()
 //データの読み込み(データ班から)
 {
     //待ち時間の読み込み
-    string str = current_directory + "/input/wait_time_sample.csv";
+    string str = current_directory + "/input/wait_time_test.csv";
 	ifstream wait(str);
     if(!wait){
         cout << "入力エラー";
@@ -1206,12 +1209,6 @@ int main()
         cout << "\n";
     }
     */
-    for(auto it = most_atr.begin(); it != most_atr.end(); it++){
-        cout << *it << "\n";
-    }
-    for(auto it = med_atr.begin(); it != med_atr.end(); it++){
-        cout << *it << "\n";
-    }
     solve_large();
     small_check = true;
     /*
