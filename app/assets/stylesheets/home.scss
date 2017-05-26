@@ -240,7 +240,7 @@ body {
     text-align: center;
   }
 
-  input[type=submit] {
+  #confirm-btn {
     font-size: 24px;
     margin-top: 30px;
     padding: 3px 12px;
@@ -254,6 +254,23 @@ body {
     &:hover {
       opacity: 0.8;
       cursor: pointer;
+    }
+  }
+}
+
+#confirm-tab {
+  .submit-wrapper {
+    @include clearfix();
+    .calc-submit-btn {
+      float: right;
+      background-color: rgb(73, 204, 246);
+      font-size: 30px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      padding: 0px 6px;
+      border: solid 1px white;
+      border-radius: 5px;
+      color: white;
     }
   }
 }
@@ -321,38 +338,81 @@ body {
 }
 
 #calc-results {
-  #calc-results-start {
-    margin: 0 10px;
-    @include clearfix();
-    color: black;
-
-    .attraction-point {
-      float: left;
+  @include clearfix();
+  margin-top: 10px;
+      .attraction-point {
       border: solid 2px white;
 
       border-radius: 50%;
       text-align: center;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 1),0 0 6px rgba(0, 0, 0, 1);
+      box-shadow: 0 0 6px rgba(0, 0, 0, 1), 0 0 6px rgba(0, 0, 0, 1);
       cursor: pointer;
 
       color: white;
 
       vertical-align: middle;
       height: 60px;
-      width:  60px;
+      width: 60px;
       line-height: 60px;
       font-size: 40px;
-      margin: 10px 0;
     }
+    .route-bar {
+      margin: 0 auto;
+      border-radius: 5px;
+      width: 15px;
+      height: 200px;
+      background-color: darkslategrey;
+
+
+  }
 
     .attraction-name {
-      margin: 10px 12px 0;
-      font-size: 26px;
-      float: left;
+      color: black;
+      padding-left: 15px;
+      font-size: 40px;
+      height: 64px;
     }
 
-    .start-time {
 
+    .time-description {
+      color: black;
+      font-size: 20px;
+      height: 155px;
+      padding: 0px;
+
+      .start-time {
+        font-size: 35px;
+        height: 45px;
+
+      }
+      .move-time {
+        margin-top: 20px;
+        font-size: 25px;
+      }
+      .arrive-time {
+        margin-top: 10px;
+        font-size: 35px;
+      }
+    }
+
+
+  #calc-results-start {
+    margin: 0 10px;
+    @include clearfix();
+    color: black;
+
+
+    .wrapper {
+      float: left;
+
+      .attraction-name {
+        margin: 10px 12px 0;
+        font-size: 40px;
+      }
+
+      .start-time {
+        font-size: 20px;
+      }
     }
   }
 
@@ -363,11 +423,64 @@ body {
       @include clearfix();
       .attraction-name {
         float: left;
+        font-size: 40px;
       }
 
       .arrive-time {
         float: left;
       }
+    }
+
+    .route-bar {
+      float: left;
+      background-color: black;
+      width: 5px;
+      height: 20px;
+    }
+
+    .move-tim　{
+      color: black;
+    }
+  }
+}
+
+#attractions-list {
+  .decided {
+    @include clearfix();
+    color: black;
+    font-size: 30px;
+    margin: 5px 0;
+    padding-left: 10px;
+    border-bottom: solid 1px;
+    .attraction-name {
+      float: left;
+      margin-left: 5px;
+    }
+    .to_must {
+      color: white;
+      background-color: limegreen;
+      padding: 1px 6px;
+      margin-right: 20px;
+      border: solid 1px black;
+      border-radius: 5px;
+      float: right;
+    }
+    .delete {
+      color: white;
+      background-color: #FF7866;
+      padding: 1px 6px;
+      margin-right: 20px;
+      border: solid 1px black;
+      border-radius: 5px;
+      float: right;
+    }
+    .must {
+      background-color: orange;
+      padding: 1px 6px;
+      margin-right: 20px;
+      border: solid 1px black;
+      border-radius: 5px;
+      float: right;
     }
   }
 }

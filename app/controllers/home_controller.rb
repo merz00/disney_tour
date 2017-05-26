@@ -34,7 +34,7 @@ class HomeController < ApplicationController
 
     # Cコール
     logger.info('route_search.out')
-    system("#{Rails.root.to_s}/lib/others/cpp/route_search.out")
+    system("#{Rails.root.to_s}/lib/others/cpp/a.out", "#{Rails.root.to_s}/lib/others/cpp/")
 
     # 結果読み込み
     result = {}
@@ -83,7 +83,7 @@ class HomeController < ApplicationController
         '1'
       when 'Clouds'
         '2'
-      when 'Rainy'
+      when 'Rain'
         '3'
       else
         '3'

@@ -16,24 +16,32 @@ item_hover_out = ($obj) ->
   $('#attraction-' + id + '-name').removeClass('selected')
   $('#attraction-' + id + '-point').removeClass('selected')
 
+form_delete = (id) ->
+  $('#attraction-' + id + '-name').removeClass('decided')
+  $('#attraction-' + id + '-point').removeClass('decided')
+  $('#attraction-form-' + id).remove()
+
+  $('#decided-' + id + '-id').css('display', 'none');
+
+form_add = (id) ->
+  $('#attraction-' + id + '-name').addClass('decided')
+  $('#attraction-' + id + '-point').addClass('decided')
+
+  $('#attractions-form').append("<input type='hidden' class='attraction-select'" +
+      "id='attraction-form-" + id + "' " +
+      "name='attraction_ids[" + id + "]' " +
+      "value=" + 1 + ">")
+
+  $('#decided-' + id + '-id').css('display', 'block');
 
 
 item_clicked = ($obj) ->
   id = $obj.data('attraction-id')
 
   if $obj.hasClass('decided')
-    $('#attraction-' + id + '-name').removeClass('decided')
-    $('#attraction-' + id + '-point').removeClass('decided')
-    $('#attraction-form-' + id).remove()
-
+    form_delete(id)
   else
-    $('#attraction-' + id + '-name').addClass('decided')
-    $('#attraction-' + id + '-point').addClass('decided')
-
-    $('#attractions-form').append("<input type='hidden' class='attraction-select'" +
-        "id='attraction-form-" + id + "' " +
-        "name='attraction_ids[" + id + "]' " +
-        "value=" + 1 + ">")
+    form_add(id)
 
 append_start_info = (data) ->
   $('#calc-results-start').empty()
@@ -52,8 +60,6 @@ append_attraciotns_info = (data) ->
         "<div class='attraction-name'>" + attraction.attraction_name
         )
   )
-
-
 
 
 $attraction_point = (id) ->
@@ -162,10 +168,40 @@ $ ->
       return false
   )
 
+  $('#confirm-btn').click(
+    ->
+      $('.tab-content').css('display', 'none')
+      $('#confirm-tab').css('display', 'block')
+  )
+
   $('.acMenu dt').click(
     ->
       $(this).next().slideToggle()
   );
+
+  $('.to_must').click(
+    ->
+      id = $(this).data('attraction-id')
+      $(this).css('display', 'none')
+      $(".must[data-attraction-id=" + id + ']').css('display', 'block')
+      $('#attraction-form-33').attr('value', 0)
+  )
+
+  $('.must').click(
+    ->
+      id = $(@).data('attraction-id')
+      $(@).css('display', 'none')
+      $(".to_must[data-attraction-id=" + id + ']').css('display', 'block')
+      $('#attraction-form-33').attr('value', 1)
+  )
+
+  $('.delete').click(
+    ->
+      id = $(@).data('attraction-id')
+      form_delete(id)
+
+  )
+
 
   toTargetDigits = (num, digits) ->
     num += ''
