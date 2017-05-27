@@ -226,7 +226,7 @@ void user_data_input()
 void known_data_input()
 //データの読み込み(既知のデータから標準入力)
 {
-    string str = current_directory + "input/known_data_sample.csv";
+    string str = current_directory + "input/known_data.csv";
     ifstream ifs(str, ios::binary);
     if(!ifs){
         cout << "入力エラー";
