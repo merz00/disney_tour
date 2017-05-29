@@ -37,23 +37,29 @@ int dtime[MAX_N][MAX_N];	    //移動時間
 double mtime[MAX_N];	        //平均待ち時間
 bool fp_flag[MAX_N];            //アトラクションがファストパスありならtrue
 int sttime,endtime;             //入園時間,出園時間
-int fp_wtime = 2;	            //fpを使ったときの待ち時間(定数)
-int fp_waitlimit = 2;           //fpの制限が解除されるまで待つ時間もいくはfp使用開始時間になるまで待つ時間の限界値(定数)
-int fp_itv = 24;                //新たにfpを取れない時間
-int optdir = INF;               //最短移動時間(INFで初期化)
-int optatr = 0;	                //最多アトラクション数(0で初期化)
-int optAatr = 0;                //最多絶対乗りたいアトラクション数ルート
-int opttime = INF;	            //最短時間(INFで初期化)
+int fp_wtime;	                //fpを使ったときの待ち時間(定数)
+int fp_waitlimit;               //fpの制限が解除されるまで待つ時間もしくはfp使用開始時間になるまで待つ時間の限界値(定数)
+int fp_itv;                     //新たにfpを取れない時間
+int optdir;                     //最短移動時間(INFで初期化)
+int optatr;	                    //最多アトラクション数(0で初期化)
+int optAatr;                    //最多絶対乗りたいアトラクション数ルート
+int opttime;    	            //最短時間(INFで初期化)
+double opttimedir;              //最短時間と最短移動時間をブレンド
 int num_atr;	                //アトラクションの数
-int step_minute = 5;            //1ステップの時間(分)
-int step_in_hour = 12;          //1時間あたりのステップ数
-int park_open_time = 8;         //ディズニーの開園時間
+int step_minute;                //1ステップの時間(分)
+int step_in_hour;               //1時間あたりのステップ数
+int park_open_time;             //ディズニーの開園時間
 vector<P> optdir_route;	        //最短移動時間ルート
 vector<P> optatr_route;	        //最多アトラクション数ルート
 vector<P> optAatr_route;        //最大絶対乗りたいアトラクション数ルート
 vector<P> opttime_route;	    //最短時間ルート
+vector<P> opttimedir_route;     //最短時間と最短移動距離をブレンドしたルート
+bool all_ride;                  //全てのアトラクションを回りきれるかどうか
 bool small_check;               //trueならデータがsmall,falseならデータがlarge
-double time_limit = 5000.0;     //制限時間(ms)
+bool diverge_check1;            //trueなら分岐を増やす
+bool diverge_check2;            //trueなら分岐を増やす
+bool diverge_check3;            //trueなら分岐を増やす
+double time_limit;              //制限時間(ms)
 system_clock::time_point measure_start,measure_check,measure_end;   //実行時間の測定
 string current_directory;
 
@@ -68,6 +74,34 @@ vector<string> split(string& input, char delimiter)
         result.push_back(field);
     }
     return result;
+}
+
+bool atr_same(const vector<int>& p1,const vector<int>& p2)
+//回ったアトラクションの一致を調べる
+{
+    if(p1.size() != p2.size()){
+        return false;
+    }
+    for(int i = 0; i < p1.size(); i++){
+        if(p1[i] != p2[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool route_same(const vector<P>& p1,const vector<P>& p2)
+//回ったルートの一致を調べる
+{
+    if(p1.size() != p2.size()){
+        return false;
+    }
+    for(int i = 0; i < p1.size(); i++){
+        if(p1[i] != p2[i]){
+            return false;
+        }
+    }
+    return true;
 }
 
 P real_time(int step)
@@ -122,6 +156,17 @@ int string_to_step(string& time, int id)
     }else{
         return step_time_start(P(stoi(hour), stoi(minute)));
     }
+}
+
+void init()
+{
+    most_atr.clear(),med_atr.clear();
+    fp_wtime = 2,fp_waitlimit = 2,fp_itv = 24;
+    optdir = INF,optatr = 0,optAatr = 0,opttime = INF,opttimedir = INF;
+    step_minute = 5,step_in_hour = 12,park_open_time = 8;
+    optdir_route.clear(),optatr_route.clear(),optAatr_route.clear(),opttime_route.clear();
+    all_ride = false;
+    time_limit = 5000.0;
 }
 
 void fp_time_read(int atr_id, string& file)
@@ -181,7 +226,7 @@ void user_data_input()
 void known_data_input()
 //データの読み込み(既知のデータから標準入力)
 {
-    string str = current_directory + "input/known_data_sample.csv";
+    string str = current_directory + "input/known_data.csv";
     ifstream ifs(str, ios::binary);
     if(!ifs){
         cout << "入力エラー";
@@ -235,7 +280,6 @@ void predict_data_input()
     while(getline(wait,line)){
         vector<string> strvec = split(line, ',');
 		if(row == 0){
-			wait_start = (sttime / step_in_hour) * step_in_hour;
             row++;
         }else{
             wait_start = (sttime / step_in_hour) * step_in_hour;
@@ -304,6 +348,7 @@ void dfs(int ptime, int patr, set<P> fp, int fp_free, set<int> Aatr, set<int> Ba
 
     //全てのアトラクションを回りつくした
 	if(Aatr.empty() && Batr.empty() && fp.empty()){
+        all_ride = true;
         //最短移動時間のルート
 		int dsum = 0;
 		for(int i = 1; i < route.size(); i++){
@@ -324,6 +369,14 @@ void dfs(int ptime, int patr, set<P> fp, int fp_free, set<int> Aatr, set<int> Ba
 			}
 			opttime = ptime;
 		}
+        double rate = (double)opttime / optdir;
+        if((ptime-sttime) + rate * dsum < opttimedir){
+            opttimedir_route.clear();
+            for(int i = 0; i < route.size(); i++){
+                opttimedir_route.push_back(route[i]);
+            }
+            opttimedir = (ptime-sttime) + rate * dsum;
+        }
 		return;
 	}
 
@@ -415,63 +468,109 @@ void dfs(int ptime, int patr, set<P> fp, int fp_free, set<int> Aatr, set<int> Ba
             }
 		}
 	}
+    vector<int> fp_Batr;		//most_atrに属していてかつファストパスが終了していないアトラクション
+	for(auto it = Batr.begin(); it != Batr.end(); it++){
+		if(fptime_start[*it][ptime] > 0){		//fpが存在しまだ終了していないアトラクションはその値が0である
+			fp_Batr.push_back(*it);
+		}
+	}
+
+    for(int i = 0; i < fp_Batr.size(); i++){
+        nptime = ptime + dtime[patr][fp_Batr[i]];
+        //ファストパス制限が解除されそうにないorファストパスが終了しているなら
+        if(nptime + fp_waitlimit < fp_free || fptime_start[fp_Batr[i]][nptime] == 0){
+            continue;
+        }
+        //今すぐファストパスが使える時
+        if(nptime >= fp_free){
+            //ファストパスの開始時間が終了時刻-アトラクション時間を超えていたらダメ
+            if(endtime-atime[fp_Batr[i]] >= fptime_start[fp_Batr[i]][nptime]){
+                npatr = fp_Batr[i];
+                fp.insert(P(npatr, nptime));
+                nfp_free = min(nptime + fp_itv, fptime_start[npatr][nptime]);
+                Batr.erase(npatr);
+                route.push_back(P(npatr, 1));
+                fp_get = true;
+                dfs(nptime, npatr, fp, nfp_free, Aatr, Batr, route);
+                fp.erase(P(npatr, nptime)); //backtrack
+                Batr.insert(npatr);	        //backtrack
+                route.pop_back();	        //backtrack
+            }
+        //まだファストパスの制限が解除されていないなら
+        }else{
+            //ファストパスが終了していない かつ ファストパスの開始時間が終了時刻-アトラクション時間を超えていない
+            if(fptime_start[fp_Batr[i]][fp_free] > 0 && endtime - atime[fp_Batr[i]] >= fptime_start[fp_Batr[i]][fp_free]){
+                npatr = fp_Batr[i];
+                fp.insert(P(npatr, nptime));
+                nfp_free = min(fp_free + fp_itv, fptime_start[npatr][fp_free]);
+                Batr.erase(npatr);
+                route.push_back(P(npatr, 2));
+                fp_get = true;
+                dfs(fp_free, npatr, fp, nfp_free, Aatr, Batr, route);
+                fp.erase(P(npatr, nptime)); //backtrack
+                Batr.insert(npatr);		    //backtrack
+                route.pop_back();		    //backtrack
+            }
+        }
+    }
     //ファストパスを取ったら終了
 	if(fp_get){
 		return;
 	}
 
-    //fpの存在するBatrの中から一番早くfpが使えるようになるものを１つ選ぶ
-    vector<P> fp_Batr;		                       //med_atrに属していてかつファストパスが終了していないアトラクション
-	for(auto it = Batr.begin(); it != Batr.end(); it++){
-		if(fptime_start[*it][ptime] > 0){		   //fpが存在しまだ終了していないアトラクションはその値が0である
-			fp_Batr.push_back(P(fptime_start[*it][ptime],*it));
-		}
-	}
-    sort(fp_Batr.begin(),fp_Batr.end());
-	fp_get = false;	//fp取る行動を行ったか
+    // //fpの存在するBatrの中から一番早くfpが使えるようになるものを１つ選ぶ
+    // vector<P> fp_Batr;		                       //med_atrに属していてかつファストパスが終了していないアトラクション
+	// for(auto it = Batr.begin(); it != Batr.end(); it++){
+	// 	if(fptime_start[*it][ptime] > 0){		   //fpが存在しまだ終了していないアトラクションはその値が0である
+	// 		fp_Batr.push_back(P(fptime_start[*it][ptime],*it));
+	// 	}
+	// }
+    // sort(fp_Batr.begin(),fp_Batr.end());
+	// fp_get = false;	//fp取る行動を行ったか
+    //
+	// for(int i = 0; i < fp_Batr.size(); i++){
+	// 	nptime = ptime + dtime[patr][fp_Batr[i].second];
+    //     //ファストパス制限が解除されそうにないorファストパスが終了しているなら
+	// 	if(nptime + fp_waitlimit < fp_free || fptime_start[fp_Batr[i].second][nptime] == 0){
+	// 		continue;
+	// 	}
+    //     //今すぐファストパスが使える時
+	// 	if(nptime >= fp_free){
+    //         //ファストパスの開始時間が終了時刻-アトラクション時間を超えていたらダメ
+    //         if(endtime-atime[fp_Batr[i].second] >= fptime_start[fp_Batr[i].second][nptime]){
+    //             npatr = fp_Batr[i].second;
+    // 			fp.insert(P(npatr, nptime));
+    // 			nfp_free = min(nptime + fp_itv, fptime_start[npatr][nptime]);
+    // 			Batr.erase(npatr);
+    // 			route.push_back(P(npatr, 1));
+    // 			fp_get = true;
+    // 			dfs(nptime, npatr, fp, nfp_free, Aatr, Batr, route);
+    //             fp.erase(P(npatr, nptime)); //backtrack
+    // 			Batr.insert(npatr);	         //backtrack
+    // 			route.pop_back();	         //backtrack
+    //         }
+    //     //まだファストパスの制限が解除されていない
+	// 	}else{
+    //         //ファストパスが終了していない かつ ファストパスの開始時間が終了時刻-アトラクション時間を超えていない
+    //         if(fptime_start[fp_Batr[i].second][fp_free] > 0 && endtime - atime[fp_Batr[i].second] >= fptime_start[fp_Batr[i].second][fp_free]){
+    //             npatr = fp_Batr[i].second;
+	// 		    fp.insert(P(npatr, nptime));
+	// 		    nfp_free = min(fp_free + fp_itv, fptime_start[npatr][fp_free]);
+	// 		    Batr.erase(npatr);
+	// 		    route.push_back(P(npatr, 2));
+    //             fp_get = true;
+	// 		    dfs(fp_free, npatr, fp, nfp_free, Aatr, Batr, route);
+    //             fp.erase(P(npatr, nptime)); //backtrack
+	// 	        Batr.insert(npatr);		    //backtrack
+	//             route.pop_back();		    //backtrack
+    //         }
+	// 	}
+    //     //ファストパスを一回でも取ったら終了
+    //     if(fp_get){
+    // 		return;
+    // 	}
+	// }
 
-	for(int i = 0; i < fp_Batr.size(); i++){
-		nptime = ptime + dtime[patr][fp_Batr[i].second];
-        //ファストパス制限が解除されそうにないorファストパスが終了しているなら
-		if(nptime + fp_waitlimit < fp_free || fptime_start[fp_Batr[i].second][nptime] == 0){
-			continue;
-		}
-        //今すぐファストパスが使える時
-		if(nptime >= fp_free){
-            //ファストパスの開始時間が終了時刻-アトラクション時間を超えていたらダメ
-            if(endtime-atime[fp_Batr[i].second] >= fptime_start[fp_Batr[i].second][nptime]){
-                npatr = fp_Batr[i].second;
-    			fp.insert(P(npatr, nptime));
-    			nfp_free = min(nptime + fp_itv, fptime_start[npatr][nptime]);
-    			Batr.erase(npatr);
-    			route.push_back(P(npatr, 1));
-    			fp_get = true;
-    			dfs(nptime, npatr, fp, nfp_free, Aatr, Batr, route);
-                fp.erase(P(npatr, nptime)); //backtrack
-    			Batr.insert(npatr);	         //backtrack
-    			route.pop_back();	         //backtrack
-            }
-        //まだファストパスの制限が解除されていない
-		}else{
-            //ファストパスが終了していない かつ ファストパスの開始時間が終了時刻-アトラクション時間を超えていない
-            if(fptime_start[fp_Batr[i].second][fp_free] > 0 && endtime - atime[fp_Batr[i].second] >= fptime_start[fp_Batr[i].second][fp_free]){
-                npatr = fp_Batr[i].second;
-			    fp.insert(P(npatr, nptime));
-			    nfp_free = min(fp_free + fp_itv, fptime_start[npatr][fp_free]);
-			    Batr.erase(npatr);
-			    route.push_back(P(npatr, 2));
-                fp_get = true;
-			    dfs(fp_free, npatr, fp, nfp_free, Aatr, Batr, route);
-                fp.erase(P(npatr, nptime)); //backtrack
-		        Batr.insert(npatr);		    //backtrack
-	            route.pop_back();		    //backtrack
-            }
-		}
-        //ファストパスを一回でも取ったら終了
-        if(fp_get){
-    		return;
-    	}
-	}
 
 	//アトラクション乗ろう行動
 	bool ride = false;	    //アトラクションに乗る行動を行ったか
@@ -481,83 +580,156 @@ void dfs(int ptime, int patr, set<P> fp, int fp_free, set<int> Aatr, set<int> Ba
 	double ress = -INF;
     int kind;               //Aatr:0,Batr:1
 
-	//候補を3つ選ぶ
-	//「平均待ち時間-今の待ち時間-距離」が大きいものを１つ選ぶ
-	for(auto it = Aatr.begin(); it != Aatr.end(); it++){
-		if(mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]] > ress){
-			ress = mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]];
-			resit = *it;
-            kind = 0;
-		}
-	}
-    for(auto it = Batr.begin(); it != Batr.end(); it++){
-        if(mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]] > ress){
-			ress = mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]];
-			resit = *it;
-            kind = 1;
-		}
-    }
-	if(resit >= 0){
-		ride_cand.push_back(P(resit, kind));
-	}
-	res = INF, resit = -1;	//backtrack
-
-	//Aatrのうち「移動時間+待ち時間」が小さいものを1つ選ぶ
-	for(auto it = Aatr.begin(); it != Aatr.end(); it++){
-		if(dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]] < res){
-			//既にある候補と被っている場合はムシ
-			bool flag = false;
-			for(int i = 0; i < ride_cand.size(); i++){
-				if(ride_cand[i].first == *it){
-					flag = true;
-				}
-			}
-			if(!flag){
-				res = dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]];
-				resit = *it;
+    if(!diverge_check3){
+        //候補を3つ選ぶ
+        //「平均待ち時間-今の待ち時間-距離」が大きいものを１つ選ぶ
+        for(auto it = Aatr.begin(); it != Aatr.end(); it++){
+            if(mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]] > ress){
+                ress = mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]];
+                resit = *it;
                 kind = 0;
-			}
-		}
-	}
-	if(resit >= 0){
-		ride_cand.push_back(P(resit, kind));
-	}
-	res = INF,resit = -1;	//backtrack
-
-	//Aatr+Batrのうちで「移動時間+待ち時間」が一番小さいものを選ぶ
-	for(auto it = Aatr.begin(); it != Aatr.end(); it++){
-		if(dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]] < res){
-			bool flag = false;
-			for(int i = 0; i < ride_cand.size(); i++){
-				if(ride_cand[i].first == *it){
-					flag = true;
-				}
-			}
-			if(!flag){
-				res = dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]];
-				resit = *it;
-                kind = 0;
-			}
-		}
-	}
-    for(auto it = Batr.begin(); it != Batr.end(); it++){
-        if(dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]] < res){
-            bool flag = false;
-            for(int i = 0; i < ride_cand.size(); i++){
-                if(ride_cand[i].first == *it){
-                    flag = true;
-                }
             }
-            if(!flag){
-                res = dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]];
+        }
+        for(auto it = Batr.begin(); it != Batr.end(); it++){
+            if(mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]] > ress){
+                ress = mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]];
                 resit = *it;
                 kind = 1;
             }
         }
+        if(resit >= 0){
+            ride_cand.push_back(P(resit, kind));
+        }
+        ress = -INF, resit = -1;	//backtrack
+
+        //Aatrのうち「移動時間+待ち時間」が小さいものを1つ選ぶ
+        for(auto it = Aatr.begin(); it != Aatr.end(); it++){
+            if(dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]] < res){
+                //既にある候補と被っている場合はムシ
+                bool flag = false;
+                for(int i = 0; i < ride_cand.size(); i++){
+                    if(ride_cand[i].first == *it){
+                        flag = true;
+                    }
+                }
+                if(!flag){
+                    res = dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]];
+                    resit = *it;
+                    kind = 0;
+                }
+            }
+        }
+        if(resit >= 0){
+            ride_cand.push_back(P(resit, kind));
+        }
+        res = INF, resit = -1;	//backtrack
+
+        //Aatr+Batrのうちで「移動時間+待ち時間」が一番小さいものを選ぶ
+        for(auto it = Aatr.begin(); it != Aatr.end(); it++){
+            if(dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]] < res){
+                bool flag = false;
+                for(int i = 0; i < ride_cand.size(); i++){
+                    if(ride_cand[i].first == *it){
+                        flag = true;
+                    }
+                }
+                if(!flag){
+                    res = dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]];
+                    resit = *it;
+                    kind = 0;
+                }
+            }
+        }
+        for(auto it = Batr.begin(); it != Batr.end(); it++){
+            if(dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]] < res){
+                bool flag = false;
+                for(int i = 0; i < ride_cand.size(); i++){
+                    if(ride_cand[i].first == *it){
+                        flag = true;
+                    }
+                }
+                if(!flag){
+                    res = dtime[patr][*it] + wtime[*it][ptime + dtime[patr][*it]];
+                    resit = *it;
+                    kind = 1;
+                }
+            }
+        }
+        if(resit >= 0){
+            ride_cand.push_back(P(resit, kind));
+        }
+
+        res = INF, resit = -1;	//backtrack
+
+        if(diverge_check1){
+            for(auto it = Aatr.begin(); it != Aatr.end(); it++){
+                if(mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]] > ress){
+                    bool flag = false;
+                    for(int i = 0; i < ride_cand.size(); i++){
+                        if(ride_cand[i].first == *it){
+                            flag = true;
+                        }
+                    }
+                    if(!flag){
+                        ress = mtime[*it] - dtime[patr][*it] - wtime[*it][ptime + dtime[patr][*it]];
+                        resit = *it;
+                        kind = 0;
+                    }
+                }
+            }
+            if(resit >= 0){
+                ride_cand.push_back(P(resit, kind));
+            }
+
+            ress = -INF,resit = -1;	//backtrack
+        }
+
+        if(diverge_check2){
+            //Aatr+Batrのうちで「移動時間」が一番小さいものを選ぶ
+            for(auto it = Aatr.begin(); it != Aatr.end(); it++){
+                if(dtime[patr][*it] < res){
+                    bool flag = false;
+                    for(int i = 0; i < ride_cand.size(); i++){
+                        if(ride_cand[i].first == *it){
+                            flag = true;
+                        }
+                    }
+                    if(!flag){
+                        res = dtime[patr][*it];
+                        resit = *it;
+                        kind = 0;
+                    }
+                }
+            }
+            for(auto it = Batr.begin(); it != Batr.end(); it++){
+                if(dtime[patr][*it] < res){
+                    bool flag = false;
+                    for(int i = 0; i < ride_cand.size(); i++){
+                        if(ride_cand[i].first == *it){
+                            flag = true;
+                        }
+                    }
+                    if(!flag){
+                        res = dtime[patr][*it];
+                        resit = *it;
+                        kind = 1;
+                    }
+                }
+            }
+            if(resit >= 0){
+                ride_cand.push_back(P(resit, kind));
+            }
+
+            res = INF,resit = -1;	//backtrack
+        }
+    }else{
+        for(auto it = Aatr.begin(); it != Aatr.end(); it++){
+            ride_cand.push_back(P(*it,0));
+        }
+        for(auto it = Batr.begin(); it != Batr.end(); it++){
+            ride_cand.push_back(P(*it,1));
+        }
     }
-	if(resit >= 0){
-		ride_cand.push_back(P(resit, kind));
-	}
 
     //乗るアトラクションの候補のどれに乗ってもあるfpの使用時間を超えてしまうときはfpを使う
     //fpを使った後に終了時間を超えてしまうものはダメ
@@ -641,37 +813,26 @@ void dfs(int ptime, int patr, set<P> fp, int fp_free, set<int> Aatr, set<int> Ba
 	if(ride){
 		return;
 	}
-
-	//ファストパス取れない,ファストパス使えない,乗り物乗れない→これ以上行動を取れない場合(終了)
-	int atrcnt = most_atr.size() + med_atr.size() - Aatr.size() - Batr.size();
-    //最多アトラクション数のルート
-	if(atrcnt > optatr){
-		optatr_route.clear();
-		for(int i = 0; i < route.size(); i++){
-			optatr_route.push_back(route[i]);
-		}
-		optatr = atrcnt;
-	}
-    //最多絶対行きたいアトラクション数のルート
-    if(most_atr.size() - Aatr.size() > optAatr){
-        optAatr_route.clear();
-        for(int i = 0; i < route.size(); i++){
-            optAatr_route.push_back(route[i]);
+    if(!all_ride){
+        //ファストパス取れない,ファストパス使えない,乗り物乗れない→これ以上行動を取れない場合(終了)
+    	int atrcnt = most_atr.size() + med_atr.size() - Aatr.size() - Batr.size();
+        //最多アトラクション数のルート
+    	if(atrcnt > optatr){
+    		optatr_route.clear();
+    		for(int i = 0; i < route.size(); i++){
+    			optatr_route.push_back(route[i]);
+    		}
+    		optatr = atrcnt;
+    	}
+        //最多絶対行きたいアトラクション数のルート
+        if(most_atr.size() - Aatr.size() > optAatr){
+            optAatr_route.clear();
+            for(int i = 0; i < route.size(); i++){
+                optAatr_route.push_back(route[i]);
+            }
+            optAatr = most_atr.size() - Aatr.size();
         }
-        optAatr = most_atr.size() - Aatr.size();
     }
-    //最短移動時間のルート
-    int sm = 0;
-    for(int i = 1; i < route.size(); i++){
-        sm += dtime[route[i-1].first][route[i].first];
-    }
-	if(sm < optdir){
-		optdir_route.clear();
-		for(int i = 0; i < route.size(); i++){
-			optdir_route.push_back(route[i]);
-		}
-		optdir = sm;
-	}
 	return;
 }
 
@@ -832,6 +993,7 @@ void solve_small()
 
         //全てのアトラクションに乗ったなら
         if(ride_atr.size() == most_atr.size() + med_atr.size()){
+            all_ride = true;
             //最短時間のルート
             if(ptime < opttime){
                 opttime_route.clear();
@@ -848,40 +1010,42 @@ void solve_small()
                 }
                 optdir = dsum;
             }
+            double rate = (double)opttime / optdir;
+            if((ptime-sttime) + rate * dsum < opttimedir){
+                opttimedir_route.clear();
+                for(int i = 0; i < route.size(); i++){
+                    opttimedir_route.push_back(route[i]);
+                }
+                opttimedir = (ptime-sttime) + rate * dsum;
+            }
         //全てのアトラクションに乗っていないなら
         }else{
-            int Aatr_count = 0;
-            int Batr_count = 0;
-            for(auto it = ride_atr.begin(); it != ride_atr.end(); it++){
-                if(atr_kind[*it]){
-                    Batr_count++;
-                }else{
-                    Aatr_count++;
+            if(!all_ride){
+                int Aatr_count = 0;
+                int Batr_count = 0;
+                for(auto it = ride_atr.begin(); it != ride_atr.end(); it++){
+                    if(atr_kind[*it]){
+                        Batr_count++;
+                    }else{
+                        Aatr_count++;
+                    }
                 }
-            }
-            //最多アトラクション数のルート
-            if(ride_atr.size() > optatr){
-                optatr_route.clear();
-                for(int i = 0; i < route.size(); i++){
-                    optatr_route.push_back(route[i]);
+                //最多アトラクション数のルート
+                if(ride_atr.size() > optatr){
+                    optatr_route.clear();
+                    for(int i = 0; i < route.size(); i++){
+                        optatr_route.push_back(route[i]);
+                    }
+                    optatr = ride_atr.size();
                 }
-                optatr = ride_atr.size();
-            }
-            //最多絶対いきたいアトラクション数のルート
-            if(Aatr_count > optAatr){
-                optAatr_route.clear();
-                for(int i = 0; i < route.size(); i++){
-                    optAatr_route.push_back(route[i]);
+                //最多絶対いきたいアトラクション数のルート
+                if(Aatr_count > optAatr){
+                    optAatr_route.clear();
+                    for(int i = 0; i < route.size(); i++){
+                        optAatr_route.push_back(route[i]);
+                    }
+                    optAatr = Aatr_count;
                 }
-                optAatr = Aatr_count;
-            }
-            //最短移動時間のルート
-            if(dsum < optdir){
-                optdir_route.clear();
-                for(int i = 0; i < route.size(); i++){
-                    optdir_route.push_back(route[i]);
-                }
-                optdir = dsum;
             }
         }
     }while(next_permutation(action.begin(), action.end()));
@@ -1051,44 +1215,77 @@ void data_output()
 	obj_st.insert(make_pair(s[0], picojson::value((double)prepos)));	   //startのplace
 	obj_st.insert(make_pair(s[1], picojson::value(string_time(sttime))));  //startのtime
     vector<picojson::value> cand_vec;
-    vector<double> kind;
+    vector<string> kind;
     //smallの場合
     if(small_check){
-        if(opttime_route.size() > 0){
-    		cand_vec.push_back(route_to_object_small(opttime_route));
-            kind.push_back(0);
+        if(all_ride){
+            if(route_same(opttime_route,optdir_route)){
+                cand_vec.push_back(route_to_object_large(opttime_route));
+                kind.push_back("時間重視かつ移動距離重視");
+            }else{
+                cand_vec.push_back(route_to_object_large(opttime_route));
+                cand_vec.push_back(route_to_object_large(optdir_route));
+                if(!route_same(opttime_route,opttimedir_route) && !route_same(optdir_route,opttimedir_route)){
+                    cand_vec.push_back(route_to_object_large(opttimedir_route));
+                    kind.push_back("時間重視");
+                    kind.push_back("移動距離重視");
+                    kind.push_back("おすすめ");
+                }else{
+                    if(route_same(opttime_route,opttimedir_route)){
+                        kind.push_back("時間重視(おすすめ)");
+                        kind.push_back("移動距離重視");
+                    }else{
+                        kind.push_back("時間重視");
+                        kind.push_back("移動距離重視(おすすめ)");
+                    }
+                }
+            }
     	}else{
-            if(optatr_route.size() > 0){
-                cand_vec.push_back(route_to_object_small(optatr_route));
-                kind.push_back(1);
-            }
-            if(optAatr_route.size() > 0){
-                cand_vec.push_back(route_to_object_small(optAatr_route));
-                kind.push_back(2);
-            }
-            if(optdir_route.size() > 0){
-                cand_vec.push_back(route_to_object_small(optdir_route));
-                kind.push_back(3);
+            if(route_same(optatr_route,optAatr_route)){
+                cand_vec.push_back(route_to_object_large(optatr_route));
+                kind.push_back("アトラクション数重視");
+            }else{
+                cand_vec.push_back(route_to_object_large(optatr_route));
+                cand_vec.push_back(route_to_object_large(optAatr_route));
+                kind.push_back("アトラクション数重視");
+                kind.push_back("絶対行きたいアトラクション数重視");
             }
     	}
     //largeの場合
 	}else{
-        if(opttime_route.size() > 0){
-    		cand_vec.push_back(route_to_object_large(opttime_route));
-            kind.push_back(0);
-    	}else{
-            if(optatr_route.size() > 0){
-                cand_vec.push_back(route_to_object_large(optatr_route));
-                kind.push_back(1);
-            }
-            if(optAatr_route.size() > 0){
-                cand_vec.push_back(route_to_object_small(optAatr_route));
-                kind.push_back(2);
-            }
-            if(optdir_route.size() > 0){
+        if(all_ride){
+            if(route_same(opttime_route,optdir_route)){
+                cand_vec.push_back(route_to_object_large(opttime_route));
+                kind.push_back("時間重視かつ移動距離重視");
+            }else{
+                cand_vec.push_back(route_to_object_large(opttime_route));
                 cand_vec.push_back(route_to_object_large(optdir_route));
-                kind.push_back(3);
+                if(!route_same(opttime_route,opttimedir_route) && !route_same(optdir_route,opttimedir_route)){
+                    cand_vec.push_back(route_to_object_large(opttimedir_route));
+                    kind.push_back("時間重視");
+                    kind.push_back("移動距離重視");
+                    kind.push_back("おすすめ");
+                }else{
+                    if(route_same(opttime_route,opttimedir_route)){
+                        kind.push_back("時間重視(おすすめ)");
+                        kind.push_back("移動距離重視");
+                    }else{
+                        kind.push_back("時間重視");
+                        kind.push_back("移動距離重視(おすすめ)");
+                    }
+                }
             }
+        }else{
+            if(route_same(optatr_route,optAatr_route)){
+                cand_vec.push_back(route_to_object_large(optatr_route));
+                kind.push_back("アトラクション数重視");
+            }else{
+                cand_vec.push_back(route_to_object_large(optatr_route));
+                cand_vec.push_back(route_to_object_large(optAatr_route));
+                kind.push_back("アトラクション数重視");
+                kind.push_back("絶対行きたいアトラクション数重視");
+            }
+            cout << optatr << " " << optAatr << "\n";
     	}
     }
 
@@ -1119,6 +1316,8 @@ int main(int argc,char **argv)
         current_directory = argv[i];
         break;
     }
+
+    init();
 
     user_data_input();
 
@@ -1172,7 +1371,9 @@ int main(int argc,char **argv)
     //2n + m <= 9 が全探索の限界
     //(n:ファストパスのアトラクション数,m:ファストパスのないアトラクション数)
     small_check = (2 * fp_atr_count + not_fp_atr_count <= 9);
-
+    diverge_check1 = (fp_atr_count + not_fp_atr_count <= 14);
+    diverge_check2 = (fp_atr_count + not_fp_atr_count <= 12);
+    diverge_check3 = (fp_atr_count + not_fp_atr_count <= 11);
     /* //for debug
     for(int i = 0; i < num_atr; i++){
         cout << fp_flag[i] << " ";
@@ -1191,6 +1392,16 @@ int main(int argc,char **argv)
     */
 
 	predict_data_input();
+
+    /*
+    for(int i = 0; i < 37; i++){
+        cout << i << " ";
+        for(int j = 0; j < 140; j++){
+            cout << wtime[i][j] << " ";
+        }
+        cout << "\n";
+    }
+    */
 
     /*
     for(int i = 0; i < num_atr; i++){
@@ -1212,14 +1423,11 @@ int main(int argc,char **argv)
     }
     */
     solve_large();
-    small_check = true;
-    /*
     if(small_check){
         solve_small();
     }else{
         solve_large();
     }
-    */
     /*
     cout << "1\n";
     for(int i = 0; i < opttime_route.size(); i++){
@@ -1240,9 +1448,7 @@ int main(int argc,char **argv)
     */
 	data_output();
     //終了時間の測定
-    /*
     measure_end = system_clock::now();
     cout << duration_cast<milliseconds>(measure_end-measure_start).count() << " milli sec \n";
-    */
 	return 0;
 }
