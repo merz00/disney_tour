@@ -44,21 +44,24 @@ class HomeController < ApplicationController
     logger.info(result)
 
     @candidates = result['candidates'].map do |candidate|
-      { startinfo: {
-          position_id:     candidate['start']['place'],
-          attraction_name: Attraction.find_by(algorithm_id: candidate['start']['place']).name,
-          start_datetime:  candidate['start']['time']
+      { start: {
+          id:     candidate['start']['place'],
+          area_id: Attraction.find_by(algorithm_id: candidate['start']['place']).area_id,
+          name: Attraction.find_by(algorithm_id: candidate['start']['place']).name,
+          time:  candidate['start']['time']
         },
-        attractions_info: candidate['attraction'].map { |attraction|
+        attractions: candidate['attraction'].map { |attraction|
           {
-            algorithm_id:    attraction['ID'],
-            attraction_name: Attraction.find_by(algorithm_id: attraction['ID']).name,
-            move_time:       attraction['move'],
-            arrive_time:     attraction['arrive'],
-            wait_time:       attraction['wait'],
-            ride_time:       attraction['ride'],
-            duration_time:   attraction['duration_time'],
-            end_time:        attraction['end']
+            id:    attraction['ID'],
+            name: Attraction.find_by(algorithm_id: attraction['ID']).name,
+            area_id: Attraction.find_by(algorithm_id: candidate['start']['place']).area_id,
+            start:      attraction['start'],
+            move:       attraction['move'],
+            arrive:     attraction['arrive'],
+            wait:       attraction['wait'],
+            ride:       attraction['ride'],
+            duration:   attraction['duration'],
+            end:        attraction['end']
           }
         },
         discription: candidate['discription']
